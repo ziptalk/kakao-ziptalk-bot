@@ -30,7 +30,7 @@ def Keyboard():
 @app.route('/message', methods=['POST'])
 def Message():
     
-    dcontent = request.get_json()
+    content = request.get_json()
     content = content['userRequest']
     content = content['utterance']
  
