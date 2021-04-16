@@ -284,8 +284,11 @@ def get_weather(where):
     weather = ""
     url = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query={}+날씨".format(
         where)
+    print(url)
     r = requests.get(url)
+    print(r)
     bs = BeautifulSoup(r.text, "lxml")
+    print(bs)
     weather_info = bs.select("div.today_area > div.main_info")
     print("여긴 오긴 하냐?22")
     print(where)
