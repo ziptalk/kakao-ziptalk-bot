@@ -280,12 +280,16 @@ def get_act_apt_parsing_pd(result_body, dongname):
 ########################
 
 def get_weather(where):
+    print("여긴 오긴 하냐?")
     weather = ""
     url = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query={}+날씨".format(
         where)
     r = requests.get(url)
     bs = BeautifulSoup(r.text, "lxml")
     weather_info = bs.select("div.today_area > div.main_info")
+    print("여긴 오긴 하냐?22")
+    print(where)
+
 
     if len(weather_info) > 0:
         temperature = bs.select("span.todaytemp")
