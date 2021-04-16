@@ -1,44 +1,38 @@
-# server.py
+# -*- coding: utf-8 -*-
+ 
+#---------------------------------
+# quizbot.py
+#---------------------------------
+ 
+ 
+ 
+import os
 from flask import Flask, request, jsonify
-import sys
+ 
+ 
+ 
 app = Flask(__name__)
-
-
+ 
+ 
+ 
 @app.route('/keyboard')
 def Keyboard():
+ 
     dataSend = {
-    "Subject":"OSSP",
-    "user":"corona_chatbot"
+        "type" : "buttons",
+        "buttons" : ["시작하기", "도움말"]
     }
+ 
     return jsonify(dataSend)
-
+ 
+ 
+ 
 @app.route('/message', methods=['POST'])
 def Message():
-
-    content = request.get_json()
-    content = content['userRequest']
-    content = content['utterance']
-
-    # if content == u"안녕":
-    #     dataSend = {
-    #         "version": "2.0",
-    #         "template": {
-    #             "outputs": [
-    #                 {
-    #                     "carousel": {
-    #                         "type" : "basicCard",
-    #                         "items": [
-    #                             {
-    #                                 "title" : "",
-    #                                 "description" : "안녕하세요"
-    #                             }
-    #                         ]
-    #                     }
-    #                 }
-    #             ]
-    #         }
-    #     }
-
+    
+    dataReceive = request.get_json()
+    content = dataReceive['content']
+ 
     if content == u"시작하기":
         dataSend = {
             "message": {
@@ -63,8 +57,10 @@ def Message():
                 "text": "나랑 놀자 ㅋㅋㅋ"
             }
         }
-
+ 
     return jsonify(dataSend)
-
+ 
+ 
+ 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0') # Flask 기본포트 5000번
+    app.run(host='0.0.0.0', port = 5000)
