@@ -423,7 +423,8 @@ def Message():
 
     else:
         str_message = content
-        if str_message[0:1] == "":
+        # if str_message[0:1] == "":
+        if True:
             args = str_message.split(" ")
             command = args[0]
             del args[0]
