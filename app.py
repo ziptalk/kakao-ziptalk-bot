@@ -19,27 +19,27 @@ def Message():
     content = content['userRequest']
     content = content['utterance']
 
-    if content == u"안녕":
-        dataSend = {
-            "version": "2.0",
-            "template": {
-                "outputs": [
-                    {
-                        "carousel": {
-                            "type" : "basicCard",
-                            "items": [
-                                {
-                                    "title" : "",
-                                    "description" : "안녕하세요"
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        }
+    # if content == u"안녕":
+    #     dataSend = {
+    #         "version": "2.0",
+    #         "template": {
+    #             "outputs": [
+    #                 {
+    #                     "carousel": {
+    #                         "type" : "basicCard",
+    #                         "items": [
+    #                             {
+    #                                 "title" : "",
+    #                                 "description" : "안녕하세요"
+    #                             }
+    #                         ]
+    #                     }
+    #                 }
+    #             ]
+    #         }
+    #     }
 
-    elif content == u"시작하기":
+    if content == u"시작하기":
         dataSend = {
             "message": {
                 "text": "아직 개발중이라 대답을 잘 못해도 이해해줘^^;"
@@ -63,7 +63,7 @@ def Message():
                 "text": "나랑 놀자 ㅋㅋㅋ"
             }
         }
-        
+
     return jsonify(dataSend)
 
 if __name__ == "__main__":
