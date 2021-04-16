@@ -289,12 +289,14 @@ def get_weather(where):
     weather_info = bs.select("div.today_area > div.main_info")
     print("여긴 오긴 하냐?22")
     print(where)
+    print(weather_info)
 
 
     if len(weather_info) > 0:
         temperature = bs.select("span.todaytemp")
         cast_text = bs.select("p.cast_txt")
         indicator = bs.select("span.indicator")
+        print("여긴와??????")
 
         if len(temperature) > 0 and len(cast_text) > 0 and len(indicator) > 0:
             temperature = temperature[0].text.strip()
