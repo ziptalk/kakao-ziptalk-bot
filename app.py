@@ -30,8 +30,9 @@ def Keyboard():
 @app.route('/message', methods=['POST'])
 def Message():
     
-    dataReceive = request.get_json()
-    content = dataReceive['content']
+    dcontent = request.get_json()
+    content = content['userRequest']
+    content = content['utterance']
  
     if content == u"시작하기":
         dataSend = {
