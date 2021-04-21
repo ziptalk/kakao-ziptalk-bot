@@ -30,16 +30,22 @@ app = Flask(__name__)
 try:
     print("파베시작")
     import firebase_admin
+    print("모듈 1")
     from firebase_admin import credentials
+    print("모듈 2")
     from firebase_admin import firestore
+    print("모듈 다 불러옴")
 
     cred = credentials.Certificate(
         'ziptalk-chatbot-firebase-adminsdk-kz477-4cadf62941.json')
     firebase_admin.initialize_app(cred, {
         'projectId': 'ziptalk-chatbot',
     })
+    print("파베 연결 완료")
+
 
     db = firestore.client()
+    print("디비 연결 완료")
 
     # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
     docs = db.collection(u'subscription_info').stream()
