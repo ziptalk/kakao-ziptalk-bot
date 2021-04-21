@@ -18,6 +18,7 @@ from lxml import html
 import bs4
 import pandas as pd
 from datetime import datetime, timedelta
+
  
  
  
@@ -27,6 +28,7 @@ app = Flask(__name__)
 ########################
 
 try:
+    print("파베시작")
     import firebase_admin
     from firebase_admin import credentials
     from firebase_admin import firestore
