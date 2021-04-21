@@ -490,9 +490,9 @@ def Message():
                 
 
                 try:
-                    # sub_date = "2021-03-29"
-                    today_date = datetime.today()
-                    sub_date = today_date.strftime("%Y-%m-%d")
+                    sub_date = "2021-03-29"
+                    # today_date = datetime.today()
+                    # sub_date = today_date.strftime("%Y-%m-%d")
                     text = ""
 
                     for doc in docs:
