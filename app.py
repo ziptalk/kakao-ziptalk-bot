@@ -41,6 +41,7 @@ try:
 
     # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
     docs = db.collection(u'subscription_info').stream()
+    print("파베 불러옴")
 except:
     pass
 
