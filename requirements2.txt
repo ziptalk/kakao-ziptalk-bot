@@ -62,3 +62,18 @@ typing-extensions==3.7.4.3
 tzlocal==2.1
 # urllib3==1.26.3
 yarl==1.6.3
+
+firebase-admin==4.5.3
+
+google-api-core==1.23.0
+google-api-python-client==1.12.8
+google-auth==1.23.0
+google-auth-httplib2==0.0.4
+google-cloud==0.34.0
+google-cloud-core==1.4.4
+google-cloud-firestore==2.0.2
+google-cloud-storage==1.33.0
+google-cloud-vision==2.0.0
+google-crc32c==1.0.0
+google-resumable-media==1.1.0
+googleapis-common-protos==1.52.0

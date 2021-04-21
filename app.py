@@ -26,6 +26,27 @@ app = Flask(__name__)
 
 ########################
 
+try:
+    import firebase_admin
+    from firebase_admin import credentials
+    from firebase_admin import firestore
+
+    cred = credentials.Certificate(
+        'ziptalk-chatbot-firebase-adminsdk-kz477-4cadf62941.json')
+    firebase_admin.initialize_app(cred, {
+        'projectId': 'ziptalk-chatbot',
+    })
+
+    db = firestore.client()
+
+    # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
+    docs = db.collection(u'subscription_info').stream()
+except:
+    pass
+
+
+########################
+
 def get_subscription_list(bbs_tl='', bbs_dtl_cts='', category='', detail_category=''):
     url = 'http://apis.data.go.kr/B552555/lhNoticeInfo/getNoticeInfo'
     # service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J%2BtWUeGpU5BaVi6fZsgnL9qw%3D%3D'
@@ -289,7 +310,7 @@ def get_weather(where):
     print(r)
     bs = BeautifulSoup(r.text, "lxml")
     print(bs)
-    weather_info = bs.select("div.today_area > div.main_info")
+    weather_info = bs.select("div.today_area > div.main_info") #왜 여기서 null을 반환하지??
     print("여긴 오긴 하냐?22")
     print(where)
     print(weather_info)
@@ -461,6 +482,53 @@ def Message():
                 
                 날씨 <지역명>
                 ex ) 날씨 남가좌동"""
+
+            
+            elif command == "오늘청약":
+                # today = datetime.today()
+                # sub_date = today.strftime("%Y-%m-%d")
+                
+
+                try:
+                    # sub_date = "2021-03-29"
+                    today_date = datetime.today()
+                    sub_date = today_date.strftime("%Y-%m-%d")
+                    text = ""
+
+                    for doc in docs:
+                        temp = doc.to_dict()
+
+                        if(temp["realtime_info"]["date"] == sub_date):
+                            try:
+                                text = text + "날짜 : " + temp["realtime_info"]["date"] + "\n"
+                                text = text + "▼▼▼ 아파트정보 ▼▼▼" + "\n"
+                                text = text + "아파트명 : " + temp["realtime_info"]["apt_info"]["apt_name"] + "\n"
+                                text = text + "공급위치 : " + temp["realtime_info"]["apt_info"]["address"] + "\n"
+                                text = text + "공급규모 : " + temp["realtime_info"]["apt_info"]["sup_size"] + "\n"
+                                text = text + "문의처 : " + temp["realtime_info"]["apt_info"]["tel"].replace("\n", "") + "\n"
+                                text = text + "▼▼▼ 청약일정 ▼▼▼" + "\n"
+                                text = text + "모집공고일 : " + temp["realtime_info"]["sub_sch"]["ann_date"] + "\n"
+                                for sch in range(0, 3):
+                                    if (temp["realtime_info"]["sub_sch"]["sub_rec"][sch]["class_name"] != ""):
+                                        text = text + "구분명 : " + temp["realtime_info"]["sub_sch"]["sub_rec"][sch]["class_name"] + "\n"
+                                        text = text + "해당지역 접수일 : " + temp["realtime_info"]["sub_sch"]["sub_rec"][sch]["local_date"] + "\n"
+                                        text = text + "기타지역 접수일 : " + temp["realtime_info"]["sub_sch"]["sub_rec"][sch]["other_date"] + "\n"
+                                        text = text + "접수장소 : " + temp["realtime_info"]["sub_sch"]["sub_rec"][sch]["recept_place"] + "\n"
+                                    elif (sch == 0 and temp["realtime_info"]["sub_rec"][sch]["class_name"] == ""):
+                                        text = text + "접수일 : " + temp["realtime_info"]["sub_sch"]["sub_rec"][sch]["local_date"] + "\n"
+                                text = text + "당첨자 발표일 : " + temp["realtime_info"]["sub_sch"]["winner_date"].replace("\n", "").replace("\t", "") + "\n"
+                                text = text + "계약일 : " + temp["realtime_info"]["sub_sch"]["contract_date"] + "\n"
+                                text = text + "=================\n"
+                            except:
+                                pass
+                    
+                    if text == "":
+                        text = "오늘 접수 일정은 없습니다."
+
+                except:
+                    text = "오늘청약 명령어 에러"
+
+
 
             elif command == "아파트실거래가":
                 w = " ".join(args)
