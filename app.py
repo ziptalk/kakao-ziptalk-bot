@@ -516,11 +516,11 @@ def Message():
                     sub_date = today_date.strftime("%Y-%m-%d")
 
                     if(command == "내일"):
-                        today_date = datetime.today() + timedelta(1)
-                        sub_date = today_date.strftime("%Y-%m-%d")
+                        tomorrow = today_date + timedelta(days=1)
+                        sub_date = tomorrow.strftime("%Y-%m-%d")
                     elif (command == "모레"):
-                        today_date = datetime.today() + timedelta(2)
-                        sub_date = today_date.strftime("%Y-%m-%d")
+                        da_tomorrow = today_date + timedelta(days=2)
+                        sub_date = da_tomorrow.strftime("%Y-%m-%d")
 
                     text = ""
 
