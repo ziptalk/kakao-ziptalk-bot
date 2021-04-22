@@ -529,12 +529,12 @@ def Message():
                         text = ""
                         text = text + sub_date
 
-                    
+                    temp_text = text
 
                     for doc in docs:
                         temp = doc.to_dict()
 
-                        if(temp["realtime_info"]["date"] == text):
+                        if(temp["realtime_info"]["date"] == temp_text):
                             try:
                                 text = text + "날짜 : " + temp["realtime_info"]["date"] + "\n"
                                 text = text + "▼▼▼ 아파트정보 ▼▼▼" + "\n"
