@@ -511,18 +511,25 @@ def Message():
                 
 
                 try:
+                    text = ""
+
                     # sub_date = "2021-03-29"
                     today_date = datetime.today()
                     sub_date = today_date.strftime("%Y-%m-%d")
+                    text = text + sub_date
 
                     if(command == "내일"):
                         tomorrow = today_date + timedelta(days=1)
                         sub_date = tomorrow.strftime("%Y-%m-%d")
+                        text = ""
+                        text = text + sub_date
                     elif (command == "모레"):
                         da_tomorrow = today_date + timedelta(days=2)
                         sub_date = da_tomorrow.strftime("%Y-%m-%d")
+                        text = ""
+                        text = text + sub_date
 
-                    text = ""
+                    
 
                     for doc in docs:
                         temp = doc.to_dict()
