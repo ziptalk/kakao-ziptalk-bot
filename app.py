@@ -519,7 +519,7 @@ def Message():
                     text = text + sub_date
 
                     if(command == "내일"):
-                        tomorrow = today_date + timedelta(days=1)
+                        tomorrow = today_date + timedelta(days=5)
                         sub_date = tomorrow.strftime("%Y-%m-%d")
                         text = ""
                         text = text + sub_date
@@ -530,6 +530,7 @@ def Message():
                         text = text + sub_date
 
                     temp_text = text
+                    text = ""
 
                     for doc in docs:
                         temp = doc.to_dict()
