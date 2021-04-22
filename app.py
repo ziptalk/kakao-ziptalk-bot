@@ -516,26 +516,19 @@ def Message():
                     # sub_date = "2021-03-29"
                     today_date = datetime.today()
                     sub_date = today_date.strftime("%Y-%m-%d")
-                    text = text + sub_date
 
                     if(command == "내일"):
                         tomorrow = today_date + timedelta(days=5)
                         sub_date = tomorrow.strftime("%Y-%m-%d")
-                        text = ""
-                        text = text + sub_date
+                    
                     elif (command == "모레"):
                         da_tomorrow = today_date + timedelta(days=2)
                         sub_date = da_tomorrow.strftime("%Y-%m-%d")
-                        text = ""
-                        text = text + sub_date
-
-                    temp_text = text
-                    text = ""
-
+                     
                     for doc in docs:
                         temp = doc.to_dict()
 
-                        if(temp["realtime_info"]["date"] == temp_text):
+                        if(temp["realtime_info"]["date"] == sub_date):
                             try:
                                 text = text + "날짜 : " + temp["realtime_info"]["date"] + "\n"
                                 text = text + "▼▼▼ 아파트정보 ▼▼▼" + "\n"
