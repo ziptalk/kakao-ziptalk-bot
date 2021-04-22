@@ -511,6 +511,17 @@ def Message():
                 
 
                 try:
+                    cred = credentials.Certificate(
+                        'ziptalk-chatbot-firebase-adminsdk-kz477-4cadf62941.json')
+                    firebase_admin.initialize_app(cred, {
+                        'projectId': 'ziptalk-chatbot',
+                    })
+
+                    db = firestore.client()
+
+                    # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
+                    docs = db.collection(u'subscription_info').stream()
+                    
                     text = ""
 
                     # sub_date = "2021-03-29"
@@ -518,7 +529,7 @@ def Message():
                     sub_date = today_date.strftime("%Y-%m-%d")
 
                     if(command == "내일"):
-                        tomorrow = today_date + timedelta(days=5)
+                        tomorrow = today_date + timedelta(days=1)
                         sub_date = tomorrow.strftime("%Y-%m-%d")
                     
                     elif (command == "모레"):
