@@ -534,7 +534,7 @@ def Message():
                     for doc in docs:
                         temp = doc.to_dict()
 
-                        if(temp["realtime_info"]["date"] == sub_date):
+                        if(temp["realtime_info"]["date"] == text):
                             try:
                                 text = text + "날짜 : " + temp["realtime_info"]["date"] + "\n"
                                 text = text + "▼▼▼ 아파트정보 ▼▼▼" + "\n"
