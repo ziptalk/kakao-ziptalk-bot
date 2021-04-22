@@ -21,6 +21,7 @@ from datetime import datetime, timedelta
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import sys
 
  
  
@@ -503,9 +504,9 @@ def Message():
             elif command == "오늘" or command == "내일" or command == "모레":
                 # today = datetime.today()
                 # sub_date = today.strftime("%Y-%m-%d")
-                
 
                 try:
+                    # if(db == None):
                     cred = credentials.Certificate(
                         'ziptalk-chatbot-firebase-adminsdk-kz477-4cadf62941.json')
                     firebase_admin.initialize_app(cred, {
@@ -563,6 +564,7 @@ def Message():
 
                 except:
                     text = "오늘청약 명령어 에러"
+                    text = sys.exc_info()[0]
 
 
 
