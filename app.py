@@ -505,7 +505,7 @@ def Message():
         ex ) 날씨 남가좌동"""
 
             
-            elif command == "오늘청약" or command == "내일청약" or command == "모레청약":
+            elif command == "오늘" or command == "내일" or command == "모레":
                 # today = datetime.today()
                 # sub_date = today.strftime("%Y-%m-%d")
                 
@@ -515,10 +515,10 @@ def Message():
                     today_date = datetime.today()
                     sub_date = today_date.strftime("%Y-%m-%d")
 
-                    if(command == "내일청약"):
+                    if(command == "내일"):
                         today_date = datetime.today() + timedelta(1)
                         sub_date = today_date.strftime("%Y-%m-%d")
-                    elif (command == "모레청약"):
+                    elif (command == "모레"):
                         today_date = datetime.today() + timedelta(2)
                         sub_date = today_date.strftime("%Y-%m-%d")
 
