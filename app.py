@@ -24,7 +24,7 @@ from firebase_admin import firestore
 import sys
 
 from googletrans import Translator
-from predict import predict_unseen_data
+# from predict import predict_unseen_data
 
  
  
