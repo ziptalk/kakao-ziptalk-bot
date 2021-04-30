@@ -644,30 +644,30 @@ def Message():
             #     # test_body = get_act_apt_list(11110, 202010)
             #     # test_body = get_act_apt_list(int(serach_code), int(date))
 
-            elif command == "질문하기":
-                w = " ".join(args) # 사용자가 질문한 내용
-                error_code = ""
+            # elif command == "질문하기":
+            #     w = " ".join(args) # 사용자가 질문한 내용
+            #     error_code = ""
                 
-                test_file = './data/small_samples_property.json'
-                test_examples = json.loads(open(test_file).read())
+            #     test_file = './data/small_samples_property.json'
+            #     test_examples = json.loads(open(test_file).read())
 
-                test_examples[0]['category'] = "세무" # 비워놓으면 안돼서 그냥 아무거나로 초기화
-                # print(type(kor_category))
-                # print(kor_category)
-                test_examples[0]['question'] = w
+            #     test_examples[0]['category'] = "세무" # 비워놓으면 안돼서 그냥 아무거나로 초기화
+            #     # print(type(kor_category))
+            #     # print(kor_category)
+            #     test_examples[0]['question'] = w
 
-                predict_unseen_data() #predict.py에서 가져온 모듈 돌려~
+            #     predict_unseen_data() #predict.py에서 가져온 모듈 돌려~
 
-                result_file = './data/small_samples_prediction.json'
-                result_examples = json.loads(open(result_file).read())
+            #     result_file = './data/small_samples_prediction.json'
+            #     result_examples = json.loads(open(result_file).read())
                 
-                translator = Translator(service_urls=['translate.googleapis.com'])
+            #     translator = Translator(service_urls=['translate.googleapis.com'])
 
-                result_eng = result_examples[0]['new_category']
+            #     result_eng = result_examples[0]['new_category']
 
-                result_kor = translator.translate(result_eng, dest='kr')
+            #     result_kor = translator.translate(result_eng, dest='kr')
 
-                text = result_kor.text + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"
+            #     text = result_kor.text + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"
 
 
             elif command == "청약":
