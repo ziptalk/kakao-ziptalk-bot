@@ -665,7 +665,7 @@ def Message():
 
                 result_eng = result_examples[0]['new_category']
 
-                result_kor = translator.translate(result_eng, dest='kr')
+                result_kor = translator.translate(result_eng, dest='ko')
 
                 text = result_kor.text + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"
 
