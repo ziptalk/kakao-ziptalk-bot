@@ -678,7 +678,7 @@ def Message():
                     result_tmp = "월세"
                 elif(result_tmp == "판매, 구독"):
                     result_tmp = "분양, 청약"
-                elif(result_tmp == "세":
+                elif(result_tmp == "세"):
                     result_tmp = "세무"
                 elif(result_tmp == "거래"):
                     result_tmp = "매매"
