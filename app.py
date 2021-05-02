@@ -672,7 +672,24 @@ def Message():
 
                 result_kor = translator.translate(result_eng, dest='ko')
 
-                text = result_kor.text + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"
+                result_tmp = result_kor.text
+
+                if(result_tmp == "월간 간행물"):
+                    result_tmp = "월세"
+                elif(result_tmp == "판매, 구독"):
+                    result_tmp = "분양, 청약"
+                elif(result_tmp == "세":
+                    result_tmp = "세무"
+                elif(result_tmp == "거래"):
+                    result_tmp = "매매"
+                elif(result_tmp == "관리"):
+                    result_tmp = "행정"
+                elif(result_tmp == "법"):
+                    result_tmp = "법률"
+                elif(result_tmp == "차관"):
+                    result_tmp = "대출"
+
+                text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"
 
 
             elif command == "청약":
