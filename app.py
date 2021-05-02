@@ -656,10 +656,15 @@ def Message():
                 # print(kor_category)
                 test_examples[0]['question'] = w
 
-                predict_unseen_data() #predict.py에서 가져온 모듈 돌려~
+                print(test_examples[0]['category'])
+                print(test_examples[0]['question'])
 
-                result_file = './data/small_samples_prediction.json'
-                result_examples = json.loads(open(result_file).read())
+                result_examples = predict_unseen_data(test_examples[0]['category'], test_examples[0]['question']) #predict.py에서 가져온 모듈 돌려~
+
+                print(result_examples)
+
+                # result_file = './data/small_samples_prediction.json'
+                # result_examples = json.loads(open(result_file).read())
                 
                 translator = Translator(service_urls=['translate.googleapis.com'])
 

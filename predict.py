@@ -12,7 +12,7 @@ from googletrans import Translator
 
 logging.getLogger().setLevel(logging.INFO)
 
-def predict_unseen_data():
+def predict_unseen_data(category_str, question_str):
 	"""Step 0: load trained model and parameters"""
 	params = json.loads(open('./parameters.json').read())
 	checkpoint_dir = './trained_model_1619689266/'
@@ -29,10 +29,12 @@ def predict_unseen_data():
 	translator = Translator(service_urls=['translate.googleapis.com'])
 	# translator.translate("Der Himmel ist blau und ich mag Bananen", dest='en')
 
-	kor_category = str(test_examples[0]['category'])
+	# kor_category = str(test_examples[0]['category'])
+	kor_category = category_str
 	# print(type(kor_category))
 	# print(kor_category)
-	kor_question = test_examples[0]['question']
+	# kor_question = test_examples[0]['question']
+	kor_question = question_str
 
 	eng_category = translator.translate(kor_category, dest='en')
 	eng_question = translator.translate(kor_question, dest='en')
@@ -97,6 +99,8 @@ def predict_unseen_data():
 
 		logging.critical('The accuracy is: {}'.format(correct_predictions / float(len(y_test))))
 		logging.critical('The prediction is complete')
+
+	return test_examples
 
 # if __name__ == '__main__':
 # 	# python3 predict.py ./trained_model_1478649295/ ./data/small_samples.json
