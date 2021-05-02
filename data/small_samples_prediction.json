@@ -1,7 +1,13 @@
 [
     {
+<<<<<<< Updated upstream
         "category": "분양, 청약",
         "question": "세금, 세무, 연말정산, 소득세",
         "new_category": "분양, 청약"
+=======
+        "category": "Tax",
+        "question": "Tax, tax, year-end settlement, income tax",
+        "new_category": "Tax"
+>>>>>>> Stashed changes
     }
 ]
