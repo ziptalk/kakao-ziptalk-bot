@@ -18,7 +18,7 @@ def predict_unseen_data():
 	checkpoint_dir = './trained_model_1619689266/'
 	if not checkpoint_dir.endswith('/'):
 		checkpoint_dir += '/'
-	checkpoint_file = tf.train.latest_checkpoint(c'./trained_model_1619689266/'+ 'checkpoints')
+	checkpoint_file = tf.train.latest_checkpoint('./trained_model_1619689266/'+ 'checkpoints')
 	logging.critical('Loaded the trained model: {}'.format(checkpoint_file))
 
 	"""Step 1: load data for prediction"""
