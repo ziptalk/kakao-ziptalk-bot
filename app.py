@@ -701,10 +701,10 @@ def Message():
                 
 
                 link_info2 = bs.select("#s_content > div.section > ul > li:nth-child(2) > dl > dt > a")
-                href2 = link_info2.attrs['href']
+                href2 = link_info2[0].attrs['href']
 
                 link_info3 = bs.select("#s_content > div.section > ul > li:nth-child(3) > dl > dt > a")
-                href3 = link_info3.attrs['href']
+                href3 = link_info3[0].attrs['href']
 
 
 
