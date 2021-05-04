@@ -836,7 +836,9 @@ def Message():
     dataSend = {
         "message": {
             # "text": unicode(text, "utf-8")
-            "text": text
+            "text": text,
+            "text2": text,
+            "text3": text
         }
     }
 
@@ -912,7 +914,7 @@ def Message():
     }
     }
  
-    return jsonify(dataSend2)
+    return jsonify(dataSend)
  
  
  
