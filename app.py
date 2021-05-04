@@ -696,7 +696,7 @@ def Message():
                 # print(bs)
                 link_info1 = bs.select("#s_content > div.section > ul > li:nth-child(1) > dl > dt > a")
                 # print(link_info)
-                print(link_info11)
+                print(link_info1)
                 href1 = link_info1.attrs['href']
                 
 
