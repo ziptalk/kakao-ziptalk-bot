@@ -696,19 +696,36 @@ def Message():
                 # print(bs)
                 link_info1 = bs.select("#s_content > div.section > ul > li:nth-child(1) > dl > dt > a")
                 # print(link_info)
-                print(link_info1[0])
+                # print(link_info1[0])
                 href1 = link_info1[0].attrs['href']
-                
+
+                url1 = href1
+                r1 = requests.get(url1)
+                bs1 = BeautifulSoup(r1.text, "lxml")
+                title1 = bs1.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
+                result_title1 = title1[0].text.strip()
 
                 link_info2 = bs.select("#s_content > div.section > ul > li:nth-child(2) > dl > dt > a")
                 href2 = link_info2[0].attrs['href']
 
+                url2 = href2
+                r2 = requests.get(url2)
+                bs2 = BeautifulSoup(r2.text, "lxml")
+                title2 = bs2.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
+                result_title2 = title2[0].text.strip()
+
                 link_info3 = bs.select("#s_content > div.section > ul > li:nth-child(3) > dl > dt > a")
                 href3 = link_info3[0].attrs['href']
 
+                url3 = href3
+                r3 = requests.get(url3)
+                bs3 = BeautifulSoup(r3.text, "lxml")
+                title3 = bs3.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
+                result_title3 = title3[0].text.strip()
 
 
-                text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?" + "\n\n다음은 가장 유사한 질문들입니다.\n\n" + href1 + '\n' + href2 + '\n' + href3 + '\n'
+
+                text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?" + "\n\n다음은 가장 유사한 질문들입니다.\n\n" + result_title1 + '\n' + result_title2 + '\n' + result_title3 + '\n'
 
 
             elif command == "청약":
