@@ -313,22 +313,22 @@ def get_weather(where):
     weather = ""
     url = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query={}+날씨".format(
         where)
-    print(url)
+    # print(url)
     r = requests.get(url)
-    print(r)
+    # print(r)
     bs = BeautifulSoup(r.text, "lxml")
-    print(bs)
+    # print(bs)
     weather_info = bs.select("div.today_area > div.main_info") #왜 여기서 null을 반환하지??
     print("여긴 오긴 하냐?22")
-    print(where)
-    print(weather_info)
+    # print(where)
+    # print(weather_info)
 
 
     if len(weather_info) > 0:
         temperature = bs.select("span.todaytemp")
         cast_text = bs.select("p.cast_txt")
         indicator = bs.select("span.indicator")
-        print("여긴와??????")
+        # print("여긴와??????")
 
         if len(temperature) > 0 and len(cast_text) > 0 and len(indicator) > 0:
             temperature = temperature[0].text.strip()
@@ -411,9 +411,6 @@ def api_AptList(area_command):
 
 
 ########################
-
- 
- 
  
 @app.route('/keyboard')
 def Keyboard():
@@ -689,7 +686,27 @@ def Message():
                 elif(result_tmp == "차관"):
                     result_tmp = "대출"
 
-                text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"
+                ######################
+                url = "https://kin.naver.com/search/list.nhn?query={}".format(
+                    w)
+                # print(url)
+                r = requests.get(url)
+                # print(r)
+                bs = BeautifulSoup(r.text, "lxml")
+                # print(bs)
+                link_info1 = bs.select("#s_content > div.section > ul > li:nth-child(1) > dl > dt > a")
+                # print(link_info)
+                href1 = link_info1.attrs['href']
+
+                link_info2 = bs.select("#s_content > div.section > ul > li:nth-child(2) > dl > dt > a")
+                href2 = link_info2.attrs['href']
+
+                link_info3 = bs.select("#s_content > div.section > ul > li:nth-child(3) > dl > dt > a")
+                href3 = link_info3.attrs['href']
+
+
+
+                text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?" + "\n\n다음은 가장 유사한 질문들입니다.\n\n" + href1 + '\n' + href2 + '\n' + href3 + '\n'
 
 
             elif command == "청약":
