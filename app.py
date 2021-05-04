@@ -787,9 +787,9 @@ def Message():
                     "message": {
                         # "text": unicode(text, "utf-8")
                         "text": result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?",
-                        "text2": result1,
-                        "text3": result2,
-                        "text4": result3,
+                        "text2": result_answer1,
+                        "text3": result_answer2,
+                        "text4": result_answer3,
                         "url": "https://ziptalk.imweb.me/"
                     }
                 }
