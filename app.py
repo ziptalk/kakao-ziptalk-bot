@@ -431,6 +431,8 @@ def Message():
     content = content['userRequest']
     content = content['utterance']
 
+    is_question = False
+
     # content = "/날씨 남가좌동"
 
     text = ""
@@ -642,6 +644,8 @@ def Message():
             #     # test_body = get_act_apt_list(int(serach_code), int(date))
 
             elif command == "질문하기":
+                is_question = True
+
                 w = " ".join(args) # 사용자가 질문한 내용
                 error_code = ""
                 
@@ -779,6 +783,16 @@ def Message():
 
                 text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?" + "\n\n다음은 가장 유사한 질문들입니다.\n\n" + result1 + '\n' + result2 + '\n' + result3 + '\n'
 
+                dataSend = {
+                    "message": {
+                        # "text": unicode(text, "utf-8")
+                        "text": result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?",
+                        "text2": result1,
+                        "text3": result2,
+                        "text4": result3,
+                        "url": "https://ziptalk.imweb.me/"
+                    }
+                }
 
             elif command == "청약":
                 w = " ".join(args)
@@ -833,14 +847,13 @@ def Message():
     #         }
     #     }
 
-    dataSend = {
-        "message": {
-            # "text": unicode(text, "utf-8")
-            "text": text,
-            "text2": text,
-            "text3": text
+    if (is_question == False):
+        dataSend = {
+            "message": {
+                # "text": unicode(text, "utf-8")
+                "text": text
+            }
         }
-    }
 
     dataSend2 = {
     "version": "2.0",
