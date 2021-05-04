@@ -773,7 +773,7 @@ def Message():
                     result_question3 = ''
 
                 try:
-                    result_answer3 = answer1[0].text.strip()
+                    result_answer3 = answer3[0].text.strip()
                 except:
                     result_answer3 = ''
 
