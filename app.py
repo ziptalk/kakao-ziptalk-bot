@@ -662,7 +662,7 @@ def Message():
                 test_file = './data/small_samples_property.json'
                 test_examples = json.loads(open(test_file).read())
 
-                test_examples[0]['category'] = "Sales, subscription" # 비워놓으면 안돼서 그냥 아무거나로 초기화
+                test_examples[0]['category'] = "월세" # 비워놓으면 안돼서 그냥 아무거나로 초기화
                 # print(type(kor_category))
                 # print(kor_category)
                 test_examples[0]['question'] = w
