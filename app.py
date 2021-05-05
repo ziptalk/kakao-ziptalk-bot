@@ -670,7 +670,7 @@ def Message():
                 print(test_examples[0]['category'])
                 print(test_examples[0]['question'])
 
-                result_examples = predict_unseen_data(test_examples[0]['category'], test_examples[0]['question']) #predict.py에서 가져온 모듈 돌려~
+                result_examples = predict_unseen_data('세무', test_examples[0]['question']) #predict.py에서 가져온 모듈 돌려~
 
                 print(result_examples)
 

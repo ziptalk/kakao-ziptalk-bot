@@ -40,7 +40,7 @@ def predict_unseen_data(category_str, question_str):
 	eng_question = translator.translate(kor_question, dest='en')
 	# print(eng_category.text)
 	test_examples[0]['category'] = 'Sales, subscription'
-	test_examples[0]['category'] = eng_category.text
+	# test_examples[0]['category'] = eng_category.text
 	test_examples[0]['question'] = eng_question.text
 	# test_examples = test_examples.text
 
