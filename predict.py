@@ -56,6 +56,8 @@ def predict_unseen_data(category_str, question_str):
 
 	y_test = None
 	if 'category' in test_examples[0]:
+		if test_examples[0]['category'][-1] == ' ':
+			test_examples[0]['category'][-1] = ''
 		y_raw = [example['category'] for example in test_examples]
 		y_test = [label_dict[y] for y in y_raw]
 		logging.info('The number of y_test: {}'.format(len(y_test)))
