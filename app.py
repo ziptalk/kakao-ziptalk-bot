@@ -233,7 +233,8 @@ def get_act_apt_list(area_code, year_mon):
 
         request = Request(url + queryParams)
         request.get_method = lambda: 'GET'
-        response = urlopen(request)
+        # response = urlopen(request)
+        response = requests.get(url, data=queryParams)
         # response_body = urlopen(request).read()
         print("여기는 옵니까...")
         response_body = response.read()
