@@ -215,7 +215,7 @@ def get_act_apt_list(area_code, year_mon):
     print(year_mon)
     try:
         url = "https://korbillgates.tistory.com"
-        res = urllib.request.urlopen(url)
+        res = urlopen(url)
         print(res.status)  ## 200
 
         print("여긴와?0")
