@@ -215,14 +215,15 @@ def get_act_apt_list(area_code, year_mon):
     print(year_mon)
     try:
         url = "https://korbillgates.tistory.com"
-        res = urlopen(url)
-        print(res.status)  ## 200
+        
 
         print("여긴와?0")
         url = 'http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade'
         service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
         # service_key = 'OBnmXFNjkhuaUowPaTrGaDigDegJTAKSSjjO2kHz/RDSkSjHmd/V/CXhvd6E9NRuNnPwzuW3ij+biAdy52aTEQ=='
         
+        res = urlopen(url)
+        print(res.status)  ## 200
         
         
         # queryParams = '?' + urlencode(
