@@ -230,6 +230,8 @@ def get_act_apt_list(area_code, year_mon):
         )
 
         print("여긴와?1")
+        print(year_mon)
+        print(len(year_mon))
 
         request = Request(url + queryParams)
         print("여긴와?2")
