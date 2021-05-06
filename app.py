@@ -662,7 +662,7 @@ def Message():
                 test_file = './data/small_samples_property.json'
                 test_examples = json.loads(open(test_file).read())
 
-                test_examples[0]['category'] = '법률' # 비워놓으면 안돼서 그냥 아무거나로 초기화
+                test_examples[0]['category'] = "분양, 청약" # 비워놓으면 안돼서 그냥 아무거나로 초기화
                 # print(type(kor_category))
                 # print(kor_category)
                 test_examples[0]['question'] = w
@@ -670,7 +670,7 @@ def Message():
                 print(test_examples[0]['category'])
                 print(test_examples[0]['question'])
 
-                result_examples = predict_unseen_data('세무', test_examples[0]['question']) #predict.py에서 가져온 모듈 돌려~
+                result_examples = predict_unseen_data(test_examples[0]['category'], test_examples[0]['question']) #predict.py에서 가져온 모듈 돌려~
 
                 print(result_examples)
 
@@ -702,106 +702,106 @@ def Message():
 
                 ######################
 
+                
+                url = "https://kin.naver.com/search/list.nhn?query={}".format(
+                    w)
+                # print(url)
+                r = requests.get(url)
+                # print(r)
+                bs = BeautifulSoup(r.text, "lxml")
+                # print(bs)
+                link_info1 = bs.select("#s_content > div.section > ul > li:nth-child(1) > dl > dt > a")
+                # print(link_info)
+                # print(link_info1[0])
+                href1 = link_info1[0].attrs['href']
 
-                # url = "https://kin.naver.com/search/list.nhn?query={}".format(
-                #     w)
-                # # print(url)
-                # r = requests.get(url)
-                # # print(r)
-                # bs = BeautifulSoup(r.text, "lxml")
-                # # print(bs)
-                # link_info1 = bs.select("#s_content > div.section > ul > li:nth-child(1) > dl > dt > a")
-                # # print(link_info)
-                # # print(link_info1[0])
-                # href1 = link_info1[0].attrs['href']
+                url1 = href1
+                r1 = requests.get(url1)
+                bs1 = BeautifulSoup(r1.text, "lxml")
+                title1 = bs1.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
+                question1 = bs1.select('#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__content')
+                answer1 = bs1.select('#answer_1 > div._endContents.c-heading-answer__content > div._endContentsText.c-heading-answer__content-user')
 
-                # url1 = href1
-                # r1 = requests.get(url1)
-                # bs1 = BeautifulSoup(r1.text, "lxml")
-                # title1 = bs1.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
-                # question1 = bs1.select('#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__content')
-                # answer1 = bs1.select('#answer_1 > div._endContents.c-heading-answer__content > div._endContentsText.c-heading-answer__content-user')
+                try:
+                    result_title1 = title1[0].text.strip()
+                except:
+                    result_title1 = ''
 
-                # try:
-                #     result_title1 = title1[0].text.strip()
-                # except:
-                #     result_title1 = ''
+                try:
+                    result_question1 = question1[0].text.strip()
+                except:
+                    result_question1 = ''
 
-                # try:
-                #     result_question1 = question1[0].text.strip()
-                # except:
-                #     result_question1 = ''
-
-                # try:
-                #     result_answer1 = answer1[0].text.strip()
-                # except:
-                #     result_answer1 = ''
+                try:
+                    result_answer1 = answer1[0].text.strip()
+                except:
+                    result_answer1 = ''
 
                 
 
-                # link_info2 = bs.select("#s_content > div.section > ul > li:nth-child(2) > dl > dt > a")
-                # href2 = link_info2[0].attrs['href']
+                link_info2 = bs.select("#s_content > div.section > ul > li:nth-child(2) > dl > dt > a")
+                href2 = link_info2[0].attrs['href']
 
-                # url2 = href2
-                # r2 = requests.get(url2)
-                # bs2 = BeautifulSoup(r2.text, "lxml")
-                # title2 = bs2.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
-                # question2 = bs2.select('#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__content')
-                # answer2 = bs2.select('#answer_1 > div._endContents.c-heading-answer__content > div._endContentsText.c-heading-answer__content-user')
+                url2 = href2
+                r2 = requests.get(url2)
+                bs2 = BeautifulSoup(r2.text, "lxml")
+                title2 = bs2.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
+                question2 = bs2.select('#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__content')
+                answer2 = bs2.select('#answer_1 > div._endContents.c-heading-answer__content > div._endContentsText.c-heading-answer__content-user')
 
-                # try:
-                #     result_title2 = title2[0].text.strip()
-                # except:
-                #     result_title2 = ''
+                try:
+                    result_title2 = title2[0].text.strip()
+                except:
+                    result_title2 = ''
 
-                # try:
-                #     result_question2 = question2[0].text.strip()
-                # except:
-                #     result_question2 = ''
+                try:
+                    result_question2 = question2[0].text.strip()
+                except:
+                    result_question2 = ''
 
-                # try:
-                #     result_answer2 = answer2[0].text.strip()
-                # except:
-                #     result_answer2 = ''
+                try:
+                    result_answer2 = answer2[0].text.strip()
+                except:
+                    result_answer2 = ''
 
-                # link_info3 = bs.select("#s_content > div.section > ul > li:nth-child(3) > dl > dt > a")
-                # href3 = link_info3[0].attrs['href']
+                link_info3 = bs.select("#s_content > div.section > ul > li:nth-child(3) > dl > dt > a")
+                href3 = link_info3[0].attrs['href']
 
-                # url3 = href3
-                # r3 = requests.get(url3)
-                # bs3 = BeautifulSoup(r3.text, "lxml")
-                # title3 = bs3.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
-                # question3 = bs3.select('#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__content')
-                # answer3 = bs3.select('#answer_1 > div._endContents.c-heading-answer__content > div._endContentsText.c-heading-answer__content-user')
+                url3 = href3
+                r3 = requests.get(url3)
+                bs3 = BeautifulSoup(r3.text, "lxml")
+                title3 = bs3.select("#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__title > div > div.title")
+                question3 = bs3.select('#content > div.question-content > div > div.c-heading._questionContentsArea.c-heading--default-old > div.c-heading__content')
+                answer3 = bs3.select('#answer_1 > div._endContents.c-heading-answer__content > div._endContentsText.c-heading-answer__content-user')
 
-                # try:
-                #     result_title3 = title3[0].text.strip()
-                # except:
-                #     result_title3 = ''
+                try:
+                    result_title3 = title3[0].text.strip()
+                except:
+                    result_title3 = ''
 
-                # try:
-                #     result_question3 = question3[0].text.strip()
-                # except:
-                #     result_question3 = ''
+                try:
+                    result_question3 = question3[0].text.strip()
+                except:
+                    result_question3 = ''
 
-                # try:
-                #     result_answer3 = answer3[0].text.strip()
-                # except:
-                #     result_answer3 = ''
+                try:
+                    result_answer3 = answer3[0].text.strip()
+                except:
+                    result_answer3 = ''
 
-                # result1 = '질문제목 : ' + result_title1 + '\n' + '질문내용 : ' +result_question1 + '\n' + '답변내용 : ' + result_answer1 + '\n'
-                # result2 = '질문제목 : ' + result_title2 + '\n' + '질문내용 : ' +result_question2 + '\n' + '답변내용 : ' + result_answer2 + '\n'
-                # result3 = '질문제목 : ' + result_title3 + '\n' + '질문내용 : ' +result_question3 + '\n' + '답변내용 : ' + result_answer3 + '\n'
+                result1 = '질문제목 : ' + result_title1 + '\n' + '질문내용 : ' +result_question1 + '\n' + '답변내용 : ' + result_answer1 + '\n'
+                result2 = '질문제목 : ' + result_title2 + '\n' + '질문내용 : ' +result_question2 + '\n' + '답변내용 : ' + result_answer2 + '\n'
+                result3 = '질문제목 : ' + result_title3 + '\n' + '질문내용 : ' +result_question3 + '\n' + '답변내용 : ' + result_answer3 + '\n'
 
-                # text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?" + "\n\n다음은 가장 유사한 질문들입니다.\n\n" + result1 + '\n' + result2 + '\n' + result3 + '\n'
+                text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?" + "\n\n다음은 가장 유사한 질문들입니다.\n\n" + result1 + '\n' + result2 + '\n' + result3 + '\n'
 
                 dataSend = {
                     "message": {
                         # "text": unicode(text, "utf-8")
                         "text": result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?",
-                        # "text2": result_answer1,
-                        # "text3": result_answer2,
-                        # "text4": result_answer3,
+                        "text2": result_answer1,
+                        "text3": result_answer2,
+                        "text4": result_answer3,
                         "url": "https://ziptalk.imweb.me/"
                     }
                 }
