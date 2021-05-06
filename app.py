@@ -1,9 +1,4 @@
- 
-#---------------------------------
-# quizbot.py
-#---------------------------------
- 
- 
+# -*- coding: utf-8 -*-
  
 import os
 from flask import Flask, request, jsonify
