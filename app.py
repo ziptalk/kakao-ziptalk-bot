@@ -217,6 +217,7 @@ def get_act_apt_list(area_code, year_mon):
     # area_code = '11410'
     # year_mon = '201912'
     try:
+        print("여긴와?0")
         url = 'http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade'
         service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
 
@@ -228,9 +229,14 @@ def get_act_apt_list(area_code, year_mon):
             }
         )
 
+        print("여긴와?1")
+
         request = Request(url + queryParams)
+        print("여긴와?2")
         request.get_method = lambda: 'GET'
+        print("여긴와?3")
         response_body = urlopen(request).read()
+        print("여긴와?4")
 
         result_body = response_body.decode('utf-8')
         print("get_act_apt_list 함수 끝까지 도달스")
