@@ -233,6 +233,8 @@ def get_act_apt_list(area_code, year_mon):
         response_body = urlopen(request).read()
 
         result_body = response_body.decode('utf-8')
+        print("get_act_apt_list 함수 끝까지 도달스")
+        print(result_body)
 
         return result_body
 
