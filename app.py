@@ -235,6 +235,7 @@ def get_act_apt_list(area_code, year_mon):
         print("여긴와?2")
         request.get_method = lambda: 'GET'
         print("여긴와?3")
+        print(request)
         response_body = urlopen(request).read()
         print("여긴와?4")
 
