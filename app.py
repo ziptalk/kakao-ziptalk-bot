@@ -219,8 +219,8 @@ def get_act_apt_list(area_code, year_mon):
     try:
         print("여긴와?0")
         url = 'http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade'
-        service_key = 'applePdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
-
+        # service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
+        service_key = 'OBnmXFNjkhuaUowPaTrGaDigDegJTAKSSjjO2kHz/RDSkSjHmd/V/CXhvd6E9NRuNnPwzuW3ij+biAdy52aTEQ=='
         queryParams = '?' + urlencode(
             {
                 quote_plus('ServiceKey'): service_key,
@@ -234,8 +234,8 @@ def get_act_apt_list(area_code, year_mon):
         request = Request(url + queryParams)
         request.get_method = lambda: 'GET'
         # response = urlopen(request)
-        response = requests.get(url, data=queryParams)
-        # response_body = urlopen(request).read()
+        # response = requests.get(url, data=queryParams)
+        response_body = urlopen(request).read()
         print("여기는 옵니까...")
         response_body = response.read()
         print("여긴와?4")
