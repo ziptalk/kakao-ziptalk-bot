@@ -484,11 +484,11 @@ def Message():
 
     # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
     try:
-        docs_user = db_user.collection(u'user_record').document(user_id.to_string())
-
+        docs_user = db_user.collection(u'user_record').document(user_id)
+        print("여긴와?")
         docs_user.set({
             u'date' : yyyy_mm_dd,
-            u'user_id' : user_id.to_string(),
+            u'user_id' : user_id,
             u'block_name' : block_name,
             u'comment' : content
         }, merge=True)
