@@ -209,8 +209,8 @@ def get_subscription_list(bbs_tl='', bbs_dtl_cts='', category='', detail_categor
 ########################
 
 def get_act_apt_list(area_code, year_mon):
-    area_code = '11410'
-    year_mon = '201912'
+    # area_code = '11410'
+    # year_mon = '201912'
     print(area_code)
     print(year_mon)
     try:
