@@ -556,11 +556,14 @@ def Message():
             elif command == "맞아요":
                 user_prev = firestore.client()
 
-                prev_data = user_prev.collection(u'user_record').document(user_id2).to_dict()
+                prev_data = user_prev.collection(u'user_record').document(user_id2).get().to_dict()
                 question_tmp = prev_data['comment']
+                print(question_tmp)
                 block_tmp = prev_data['block_name']
+                print(block_tmp)
                 try:
                     category_tmp = prev_data['category']
+                    print(category_tmp)
                 except:
                     pass
 
