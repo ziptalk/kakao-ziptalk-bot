@@ -664,7 +664,7 @@ def Message():
                             if (test_body != "get_act_apt_list 함수 오류 발생") and (test_body != ''):
                                 print("get in!")
                                 test_result = get_act_apt_parsing_pd(test_body, dongname)
-                                print("here comes?")
+                                print(test_result)
 
                                 if isinstance(test_result, str):
                                     text = test_result
