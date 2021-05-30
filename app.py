@@ -571,6 +571,8 @@ def Message():
                     for doc in docs:
                         temp = doc.to_dict()
 
+                        print(sub_date)
+
                         if(temp["realtime_info"]["date"] == sub_date):
                             try:
                                 text = text + "날짜 : " + temp["realtime_info"]["date"] + "\n"
@@ -596,7 +598,7 @@ def Message():
                                 pass
                     
                     if text == "":
-                        text = "오늘 접수 일정은 없습니다."
+                        text = "당일 접수 일정은 없습니다."
 
                 except:
                     text = "오늘청약 명령어 에러"
