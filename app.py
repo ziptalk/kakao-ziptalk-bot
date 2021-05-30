@@ -558,6 +558,7 @@ def Message():
 
                 prev_data = user_prev.collection(u'user_record').document(user_id2).get().to_dict()
                 question_tmp = prev_data['comment']
+                question_tmp = question_tmp.replace("질문하기 ",'')
                 print(question_tmp)
                 block_tmp = prev_data['block_name']
                 print(block_tmp)
@@ -916,12 +917,12 @@ def Message():
                 text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?" + "\n\n다음은 가장 유사한 질문들입니다.\n\n" + result1 + '\n' + result2 + '\n' + result3 + '\n'
 
                 dataSend = {
-                    "version": "2.0",
-                    "template": {"outputs": [{"simpleText": {"text": result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"}}],
-                                "quickReplies": [{"label": "good", "action": "message", "messageText": "👍 맞아요"},
-                                                {"label": "bad", "action": "message", "messageText": "👎 아니에요"},
-                                                ]
-                                },
+                    # "version": "2.0",
+                    # "template": {"outputs": [{"simpleText": {"text": result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"}}],
+                    #             "quickReplies": [{"label": "good", "action": "message", "messageText": "👍 맞아요"},
+                    #                             {"label": "bad", "action": "message", "messageText": "👎 아니에요"},
+                    #                             ]
+                    #             },
                     "message": {
                         # "text": unicode(text, "utf-8")
                         "text": result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?",
