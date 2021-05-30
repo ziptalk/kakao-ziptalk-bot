@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
  
+from io import DEFAULT_BUFFER_SIZE
 import os
 from flask import Flask, request, jsonify
 import json
@@ -473,7 +474,29 @@ def Message():
     print("block name : " + block_name)
     print("What did he/she say? : " + content)
 
+    today = datetime.today()
+    yyyy_mm_dd = today.strftime("%Y-%m-%d")
+
     is_question = False
+
+    db_user = firestore.client()
+    print("디비 연결 완료")
+
+    # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
+    try:
+        docs_user = db_user.collection(u'user_record').document(user_id.to_string())
+
+        docs_user.set({
+            u'date' : yyyy_mm_dd,
+            u'user_id' : user_id.to_string(),
+            u'block_name' : block_name,
+            u'comment' : content
+        }, merge=True)
+    except:
+        print("adding data to db is failed.")
+        # docs_user = db_user.collection(u'user_record').document()
+    
+    print("파베 불러옴")
 
     # content = "/날씨 남가좌동"
 
