@@ -567,11 +567,18 @@ def Message():
                     elif (command == "모레"):
                         da_tomorrow = today_date + timedelta(days=2)
                         sub_date = da_tomorrow.strftime("%Y-%m-%d")
+
+                    db = firestore.client()
+                    print("디비 연결 완료")
+
+                    # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
+                    docs = db.collection(u'subscription_info').stream()
+                    print("파베 불러옴")
                      
                     for doc in docs:
                         temp = doc.to_dict()
 
-                        print(sub_date)
+                        # print(sub_date)
 
                         if(temp["realtime_info"]["date"] == sub_date):
                             try:
