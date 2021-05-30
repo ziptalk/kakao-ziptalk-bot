@@ -489,16 +489,18 @@ def Message():
 
 
     # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
-    try:
-        print("여긴와?")
-        docs_user.set({
-            u'date' : yyyy_mm_dd,
-            u'user_id' : user_id2,
-            u'block_name' : block_name,
-            u'comment' : content
-        }, merge=True)
-    except:
-        print("adding data to db is failed.")
+    
+    # try:
+    #     print("여긴와?")
+    #     docs_user.set({
+    #         u'date' : yyyy_mm_dd,
+    #         u'user_id' : user_id2,
+    #         u'block_name' : block_name,
+    #         u'comment' : content
+    #     }, merge=True)
+    # except:
+    #     print("adding data to db is failed.")
+
         # docs_user = db_user.collection(u'user_record').document()
     
     print("파베 불러옴")
@@ -754,6 +756,17 @@ def Message():
             #     # test_body = get_act_apt_list(int(serach_code), int(date))
 
             elif command == "질문하기":
+                try:
+                    print("여긴와?")
+                    docs_user.set({
+                        u'date' : yyyy_mm_dd,
+                        u'user_id' : user_id2,
+                        u'block_name' : block_name,
+                        u'comment' : content
+                    }, merge=True)
+                except:
+                    print("adding data to db is failed.")
+
                 is_question = True
 
                 w = " ".join(args) # 사용자가 질문한 내용
