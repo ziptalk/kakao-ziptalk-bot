@@ -273,6 +273,8 @@ def get_act_apt_list(area_code, year_mon):
 ########################
 
 def get_act_apt_parsing_pd(result_body, dongname):
+    print("dongname")
+    print(dongname)
     try:
         try:
             xmlobj = bs4.BeautifulSoup(result_body, 'lxml-xml')
@@ -317,6 +319,7 @@ def get_act_apt_parsing_pd(result_body, dongname):
 
                 if columns[3].text == (' ' + dongname):
                     result = result + '\n---------------------\n'
+                    print(result)
 
                 rowList.append(columnList)
                 columnList = []
