@@ -659,10 +659,12 @@ def Message():
 
                     if date.isdigit():
                         try:
-                            # test_body = get_act_apt_list(int(search_code), int(date))
-                            test_body = get_act_apt_list('11110', '202010')
+                            test_body = get_act_apt_list(int(search_code), int(date))
+                            # test_body = get_act_apt_list('11110', '202010')
                             if (test_body != "get_act_apt_list 함수 오류 발생") and (test_body != ''):
+                                print("get in!")
                                 test_result = get_act_apt_parsing_pd(test_body, dongname)
+                                print("here comes?")
 
                                 if isinstance(test_result, str):
                                     text = test_result
