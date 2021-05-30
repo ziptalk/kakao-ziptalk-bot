@@ -29,23 +29,24 @@ app = Flask(__name__)
 
 ########################
 
-# try:
-#     cred = credentials.Certificate(
-#         'ziptalk-chatbot-firebase-adminsdk-kz477-4cadf62941.json')
-#     firebase_admin.initialize_app(cred, {
-#         'projectId': 'ziptalk-chatbot',
-#     })
-#     print("파베 연결 완료")
+try:
+    cred = credentials.Certificate(
+        'ziptalk-chatbot-firebase-adminsdk-kz477-4cadf62941.json')
+    firebase_admin.initialize_app(cred, {
+        'projectId': 'ziptalk-chatbot',
+    })
+    print("파베 연결 완료")
 
 
-#     db = firestore.client()
-#     print("디비 연결 완료")
+    db = firestore.client()
+    print("디비 연결 완료")
 
-#     # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
-#     docs = db.collection(u'subscription_info').stream()
-#     print("파베 불러옴")
-# except:
-#     pass
+    # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
+    docs = db.collection(u'subscription_info').stream()
+    print("파베 불러옴")
+except:
+    print("firebase init error")
+    pass
 
 
 ########################
@@ -551,16 +552,7 @@ def Message():
 
                 try:
                     # if(db == None):
-                    cred = credentials.Certificate(
-                        'ziptalk-chatbot-firebase-adminsdk-kz477-4cadf62941.json')
-                    firebase_admin.initialize_app(cred, {
-                        'projectId': 'ziptalk-chatbot',
-                    })
-
-                    db = firestore.client()
-
-                    # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
-                    docs = db.collection(u'subscription_info').stream()
+                    
 
                     text = ""
 
