@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/ihyeonju/project/kakao-ziptalk-bot/app.py", line 16, in <module>
-    import firebase_admin
-ModuleNotFoundError: No module named 'firebase_admin'
