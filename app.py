@@ -461,8 +461,17 @@ def Keyboard():
 def Message():
     
     content = request.get_json()
+    user_id = content['intent']
+    block_name = user_id['name']
+
+    user_id = user_id['id']
     content = content['userRequest']
+    
     content = content['utterance']
+
+    print("user id : " + user_id)
+    print("block name : " + block_name)
+    print("What did he/she say? : " + content)
 
     is_question = False
 
@@ -832,6 +841,12 @@ def Message():
                 text = result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?" + "\n\n다음은 가장 유사한 질문들입니다.\n\n" + result1 + '\n' + result2 + '\n' + result3 + '\n'
 
                 dataSend = {
+                    "version": "2.0",
+                    "template": {"outputs": [{"simpleText": {"text": result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?"}}],
+                                "quickReplies": [{"label": "good", "action": "message", "messageText": "👍 맞아요"},
+                                                {"label": "bad", "action": "message", "messageText": "👎 아니에요"},
+                                                ]
+                                },
                     "message": {
                         # "text": unicode(text, "utf-8")
                         "text": result_tmp + "에 관련한 질문이네요! 해당 전문가와 연결해드릴까요?",
