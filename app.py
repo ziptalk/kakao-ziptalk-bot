@@ -485,9 +485,11 @@ def Message():
     db_user = firestore.client()
     print("디비 연결 완료")
 
+    docs_user = db_user.collection(u'user_record').document(user_id2)
+
+
     # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
     try:
-        docs_user = db_user.collection(u'user_record').document(user_id2)
         print("여긴와?")
         docs_user.set({
             u'date' : yyyy_mm_dd,
@@ -548,6 +550,33 @@ def Message():
             if command == "날씨":
                 w = " ".join(args)
                 text = get_weather(w)
+            
+            elif command == "맞아요":
+                user_prev = firestore.client()
+
+                prev_data = user_prev.collection(u'user_record').document(user_id2).to_dict()
+                question_tmp = prev_data['comment']
+                block_tmp = prev_data['block_name']
+                try:
+                    category_tmp = prev_data['category']
+                except:
+                    pass
+
+                good_data = user_prev.collection(u'good_data').document()
+                if block_tmp == "폴백 블록":
+                    try:
+                        good_data.set({
+                            "category": category_tmp,
+                            "question": question_tmp
+                        })
+                        print("success!")
+                    except:
+                        print("category가 없나봅니다.")
+
+                text = "소중한 정보 감사합니다. :)"
+
+            elif command == "아니에요":
+                text = "소중한 정보 감사합니다. :)"
 
             elif command == "help" or command == "도움말":
                 text = """ziptok 챗봇을 이용해주셔서 감사합니다! 아래 명령어를 참고해주세요.
@@ -859,6 +888,10 @@ def Message():
                     result_answer3 = answer3[0].text.strip()
                 except:
                     result_answer3 = ''
+
+                docs_user.set({
+                    u'category' : result_tmp,
+                }, merge=True)
 
                 result1 = '질문제목 : ' + result_title1 + '\n' + '질문내용 : ' +result_question1 + '\n' + '답변내용 : ' + result_answer1 + '\n'
                 result2 = '질문제목 : ' + result_title2 + '\n' + '질문내용 : ' +result_question2 + '\n' + '답변내용 : ' + result_answer2 + '\n'
