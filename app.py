@@ -481,6 +481,7 @@ def Message():
     yyyy_mm_dd = today.strftime("%Y-%m-%d")
 
     is_question = False
+    is_act_apt = False
 
     db_user = firestore.client()
     print("디비 연결 완료")
@@ -684,6 +685,8 @@ def Message():
 
 
             elif command == "아파트실거래가":
+                is_act_apt = True
+
                 w = " ".join(args)
                 error_code = ""
                 # try:
@@ -991,6 +994,20 @@ def Message():
             "message": {
                 # "text": unicode(text, "utf-8")
                 "text": text
+            }
+        }
+    
+    if(is_act_apt == True):
+        dataSend = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": text
+                        }
+                    }
+                ]
             }
         }
 
