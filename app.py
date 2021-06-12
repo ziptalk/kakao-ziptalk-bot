@@ -463,6 +463,8 @@ def Message():
     do_city_list = []
     do_city_json = []
     si_gun_gu_list = []
+    apt_name_list = []
+    apt_name_json = []
 
     content = request.get_json()
     user_id = content['intent']
@@ -601,6 +603,7 @@ def Message():
                     }, merge=True)
             
             elif command in prev_si_gun_gu_list:
+                is_property_graph = True
                 dongcode = " "
                 search_code = " "
 
@@ -616,6 +619,8 @@ def Message():
                     # 동코드가 1111010100 이런 형식이므로 앞에 11110 만 가져오도록 인덱싱.
                     search_code = dongcode[0:5]
                     text = str(search_code)
+                    dic = {"label" : str(search_code), "action": "message", "messageText" : str(search_code)}
+                    do_city_json.append(dic)
             
             elif command == "맞아요":
                 user_prev = firestore.client()
