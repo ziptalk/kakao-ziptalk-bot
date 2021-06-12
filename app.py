@@ -493,6 +493,7 @@ def Message():
     is_question = False
     is_act_apt = False
     is_property_graph = False
+    is_show_graph = False
 
     db_user = firestore.client()
     print("디비 연결 완료")
@@ -520,6 +521,7 @@ def Message():
     # content = "/날씨 남가좌동"
 
     text = ""
+    file_url = ""
 
     if content == 'start':
         text = """안녕하세요! ziptok 챗봇을 이용해주셔서 감사합니다! 챗봇 사용법은 아래 설명을 참고해주세요.
@@ -965,9 +967,20 @@ def Message():
                 imageBlob.make_public()
                 print(imageBlob.public_url)
 
+                docs_user.set({
+                                u'date' : yyyy_mm_dd,
+                                u'user_id' : user_id2,
+                                u'block_name' : block_name,
+                                u'comment' : content,
+                                u'graph_name' : file_name,
+                                u'graph_url' : imageBlob.public_url
+                            }, merge=True)
 
-
-
+            elif command == "그래프 보기":
+                is_show_graph == True
+                graph_prev_data = docs_user.get().to_dict()
+                text = graph_prev_data['graph_name']
+                file_url = graph_prev_data['graph_url']
             
             elif command == "맞아요":
                 user_prev = firestore.client()
@@ -1424,6 +1437,20 @@ def Message():
                         }
                     ],
                     "quickReplies": do_city_json
+                }
+            }
+        elif(is_show_graph == True):
+            dataSend = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleImage": {
+                                "imageUrl": file_url,
+                                "altText": text
+                            }
+                        }
+                    ]
                 }
             }
     
