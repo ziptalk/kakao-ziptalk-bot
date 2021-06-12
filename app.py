@@ -564,6 +564,7 @@ def Message():
 
         graph_prev_data = docs_user.get().to_dict()
         prev_si_gun_gu_list = graph_prev_data['si_gun_gu_list']
+        prev_dong_list = graph_prev_data['dong_list']
 
         if True:
             args = str_message.split(" ")
@@ -687,13 +688,115 @@ def Message():
                             for dong_name in dong_list:
                                 dic = {"label" : dong_name, "action": "message", "messageText" : dong_name}
                                 do_city_json.append(dic)
+                            docs_user.set({
+                                u'date' : yyyy_mm_dd,
+                                u'user_id' : user_id2,
+                                u'block_name' : block_name,
+                                u'comment' : content,
+                                u'dong_list' : dong_list,
+                                u'search_code': search_code
+                            }, merge=True)
                         except:
                             print("result 오류")
 
                     except:
                         print("get_act_apt_parsing_pd 함수 오류 발생")
                     ############
-                    
+
+            elif command in prev_dong_list:
+                is_property_graph = True
+                text = "검색하고자 하는 아파트를 선택하세요."
+
+                ###########
+                graph_prev_data = docs_user.get().to_dict()
+                search_code = graph_prev_data['search_code']
+                area_name = command
+                apt_list = []
+
+                url = 'http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade'
+                service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
+
+                res = urlopen(url)
+                print(res.status)  ## 200
+
+                queryParams = '?' + urlencode(
+                            {
+                                quote_plus('ServiceKey'): service_key,
+                                quote_plus('LAWD_CD'): search_code,
+                                quote_plus('DEAL_YMD'): 202104
+                            }
+                        )
+
+                request2 = Request(url + queryParams)
+                request2.get_method = lambda: 'GET'
+                response_body = urlopen(request2).read()
+
+                result_body = response_body.decode('utf-8')
+
+                try:
+                    try:
+                        xmlobj = bs4.BeautifulSoup(result_body, 'lxml-xml')
+                    except:
+                        print("bs4 오류")
+
+                    try:
+                        rows = xmlobj.findAll('item')
+                    except:
+                        print("xmlobj 오류")
+
+                    columns = rows[0].find_all()
+
+                    rowList = []
+                    nameList = []
+                    columnList = []
+                    result = ''
+                    dong_list = []
+
+                    rowsLen = len(rows)
+
+                    try:
+                        for i in range(1, rowsLen):
+                            columns = rows[i].find_all()
+                            columnsLen = len(columns)
+
+                            for j in range(0, columnsLen):
+                                
+
+                                if i == 0:
+                                    nameList.append(columns[j].name)
+                                else:
+                                    if columns[3].text == (' ' + area_name): # 동이름이 같으면
+                                        if columns[j].name == '아파트':
+                                            apt_list.append(columns[j].text)
+
+                                eachColumn = columns[j].text
+                                columnList.append(eachColumn)
+
+                            rowList.append(columnList)
+                            columnList = []
+
+                        # print(result)
+                        apt_set = set(apt_list) #중복제거
+                        apt_list = list(apt_set)
+
+                        print(apt_list)
+                        for apt_name in apt_list:
+                            dic = {"label" : apt_name, "action": "message", "messageText" : apt_name}
+                            do_city_json.append(dic)
+
+                        docs_user.set({
+                                u'date' : yyyy_mm_dd,
+                                u'user_id' : user_id2,
+                                u'block_name' : block_name,
+                                u'comment' : content,
+                                u'apt_list' : apt_list
+                            }, merge=True)
+                    except:
+                        print("result 오류")
+
+                except:
+                    print("get_act_apt_parsing_pd 함수 오류 발생")
+
             
             elif command == "맞아요":
                 user_prev = firestore.client()
