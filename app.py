@@ -563,8 +563,13 @@ def Message():
         do_city_list = list(do_city_set)
 
         graph_prev_data = docs_user.get().to_dict()
-        prev_si_gun_gu_list = graph_prev_data['si_gun_gu_list']
-        prev_dong_list = graph_prev_data['dong_list']
+        prev_si_gun_gu_list = []
+        prev_dong_list = []
+        try:
+            prev_si_gun_gu_list = graph_prev_data['si_gun_gu_list']
+            prev_dong_list = graph_prev_data['dong_list']
+        except:
+            pass
 
         if True:
             args = str_message.split(" ")
