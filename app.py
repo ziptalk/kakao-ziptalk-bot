@@ -1427,6 +1427,7 @@ def Message():
     #     }
 
     if (is_question == False):
+        print("11111")
         dataSend = {
             "message": {
                 # "text": unicode(text, "utf-8")
@@ -1435,6 +1436,7 @@ def Message():
         }
 
         if(is_property_graph == True):
+            print("22222")
             dataSend = {
                 "version": "2.0",
                 "template": {
@@ -1448,7 +1450,7 @@ def Message():
                     "quickReplies": do_city_json
                 }
             }
-            
+
         if(is_show_graph == True):
             print("여기는 옴?")
             dataSend = {
@@ -1466,6 +1468,7 @@ def Message():
             }
     
     if(is_act_apt == True):
+        print("33333")
         dataSend = {
             "version": "2.0",
             "template": {
@@ -1479,77 +1482,7 @@ def Message():
             }
         }
 
-    dataSend2 = {
-    "version": "2.0",
-    "template": {
-        "outputs": [
-        {
-            "carousel": {
-            "type": "basicCard",
-            "items": [
-                {
-                "title": "보물상자",
-                "description": "보물상자 안에는 뭐가 있을까",
-                "thumbnail": {
-                    "imageUrl": "http://k.kakaocdn.net/dn/83BvP/bl20duRC1Q1/lj3JUcmrzC53YIjNDkqbWK/i_6piz1p.jpg"
-                },
-                "buttons": [
-                    {
-                    "action": "message",
-                    "label": "열어보기",
-                    "messageText": "짜잔! 우리가 찾던 보물입니다"
-                    },
-                    {
-                    "action":  "webLink",
-                    "label": "구경하기",
-                    "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
-                    }
-                ]
-                },
-                {
-                "title": "보물상자2",
-                "description": "보물상자2 안에는 뭐가 있을까",
-                "thumbnail": {
-                    "imageUrl": "http://k.kakaocdn.net/dn/83BvP/bl20duRC1Q1/lj3JUcmrzC53YIjNDkqbWK/i_6piz1p.jpg"
-                },
-                "buttons": [
-                    {
-                    "action": "message",
-                    "label": "열어보기",
-                    "messageText": "짜잔! 우리가 찾던 보물입니다"
-                    },
-                    {
-                    "action":  "webLink",
-                    "label": "구경하기",
-                    "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
-                    }
-                ]
-                },
-                {
-                "title": "보물상자3",
-                "description": "보물상자3 안에는 뭐가 있을까",
-                "thumbnail": {
-                    "imageUrl": "http://k.kakaocdn.net/dn/83BvP/bl20duRC1Q1/lj3JUcmrzC53YIjNDkqbWK/i_6piz1p.jpg"
-                },
-                "buttons": [
-                    {
-                    "action": "message",
-                    "label": "열어보기",
-                    "messageText": "짜잔! 우리가 찾던 보물입니다"
-                    },
-                    {
-                    "action":  "webLink",
-                    "label": "구경하기",
-                    "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
-                    }
-                ]
-                }
-            ]
-            }
-        }
-        ]
-    }
-    }
+    print(dataSend)
  
     return jsonify(dataSend)
  
