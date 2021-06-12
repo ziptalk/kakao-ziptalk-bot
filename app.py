@@ -613,6 +613,15 @@ def Message():
                 dongcode = " "
                 search_code = " "
 
+                docs_user.set({
+                                u'date' : yyyy_mm_dd,
+                                u'user_id' : user_id2,
+                                u'block_name' : block_name,
+                                u'comment' : content,
+                                u'dong_list' : ['정보가 없습니다.',],
+                                u'search_code': search_code
+                            }, merge=True)
+
                 for i in range(1, 230):
                     if (command in sheet[i][3].value):
                         dongcode = sheet[i][1].value
