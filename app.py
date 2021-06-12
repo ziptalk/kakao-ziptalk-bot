@@ -560,6 +560,9 @@ def Message():
         do_city_set = set(do_city_list)
         do_city_list = list(do_city_set)
 
+        graph_prev_data = docs_user.get().to_dict()
+        prev_si_gun_gu_list = graph_prev_data['si_gun_gu_list']
+
         if True:
             args = str_message.split(" ")
             command = args[0]
@@ -596,6 +599,23 @@ def Message():
                         u'comment' : content,
                         u'si_gun_gu_list' : si_gun_gu_list
                     }, merge=True)
+            
+            elif command in prev_si_gun_gu_list:
+                dongcode = " "
+                search_code = " "
+
+                for i in range(1, 230):
+                    if (command in sheet[i][3].value):
+                        dongcode = sheet[i][1].value
+                        break
+
+                if dongcode == " ":
+                    text = "dongcode error"
+
+                else:
+                    # 동코드가 1111010100 이런 형식이므로 앞에 11110 만 가져오도록 인덱싱.
+                    search_code = dongcode[0:5]
+                    text = str(search_code)
             
             elif command == "맞아요":
                 user_prev = firestore.client()
