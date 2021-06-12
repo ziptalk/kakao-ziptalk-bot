@@ -612,18 +612,11 @@ def Message():
                 is_property_graph = True
                 dongcode = " "
                 search_code = " "
-
-                docs_user.set({
-                                u'date' : yyyy_mm_dd,
-                                u'user_id' : user_id2,
-                                u'block_name' : block_name,
-                                u'comment' : content,
-                                u'dong_list' : ['정보가 없습니다.',],
-                                u'search_code': search_code
-                            }, merge=True)
+                graph_prev_data = docs_user.get().to_dict()
+                gu_name = graph_prev_data['comment']
 
                 for i in range(1, 230):
-                    if (command in sheet[i][3].value):
+                    if (gu_name in sheet[i][2].value and command in sheet[i][3].value.replace):
                         dongcode = sheet[i][1].value
                         break
 
