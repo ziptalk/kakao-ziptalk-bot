@@ -78,6 +78,7 @@ print(do_city_json)
 do_city_name = input("도(특별자치도) 혹은 시(특별시, 광역시)를 입력하세요. :: ")
 
 si_gun_gu_list = []
+si_gun_gu_json = []
 
 for i in range(1, 230):
     # for i in range(1, 18858):

@@ -549,6 +549,17 @@ def Message():
     else:
         str_message = content
         # if str_message[0:1] == "":
+
+
+        wb = load_workbook(filename='dongcode_20180703_real.xlsx')
+        sheet = wb['Sheet1']
+
+        for i in range(1, 230):
+            do_city_list.append(sheet[i][2].value)
+
+        do_city_set = set(do_city_list)
+        do_city_list = list(do_city_set)
+
         if True:
             args = str_message.split(" ")
             command = args[0]
@@ -560,20 +571,20 @@ def Message():
 
             elif command in "부동산 시세 예측":
                 is_property_graph = True
-                text = "검색하고자 하는 도(특별자치도) 혹은 시(특별시, 광역시)를 입력해주세요. (예) 서울, 부산, 충청남도, 세종, 제주)"
+                text = "검색하고자 하는 도(특별자치도) 혹은 시(특별시, 광역시)를 선택해주세요."
 
-                wb = load_workbook(filename='dongcode_20180703_real.xlsx')
-                sheet = wb['Sheet1']
-
-                for i in range(1, 230):
-                    do_city_list.append(sheet[i][2].value)
-
-                do_city_set = set(do_city_list)
-                do_city_list = list(do_city_set)
                 for do_city in do_city_list:
                     dic = {"label" : do_city, "action": "message", "messageText" : do_city}
                     do_city_json.append(dic)
+            
+            elif command in do_city_list:
+                is_property_graph = True
+                text = "검색하고자 하는 시/군/구 를 입력하세요."
 
+                for i in range(1, 230):
+                    if (command in sheet[i][2].value):
+                        dic = {"label" : sheet[i][3].value, "action" : "message", "messageText": sheet[i][3].value}
+                        do_city_json.append(dic)
             
             elif command == "맞아요":
                 user_prev = firestore.client()
