@@ -616,7 +616,7 @@ def Message():
                 gu_name = graph_prev_data['comment']
 
                 for i in range(1, 230):
-                    if (gu_name in sheet[i][2].value and command in sheet[i][3].value.replace):
+                    if ((gu_name in sheet[i][2].value) and (command in sheet[i][3].value)):
                         dongcode = sheet[i][1].value
                         break
 
