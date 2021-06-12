@@ -1448,7 +1448,8 @@ def Message():
                     "quickReplies": do_city_json
                 }
             }
-        elif(is_show_graph == True):
+            
+        if(is_show_graph == True):
             print("여기는 옴?")
             dataSend = {
                 "version": "2.0",
