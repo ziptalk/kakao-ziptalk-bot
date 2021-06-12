@@ -979,8 +979,14 @@ def Message():
             elif command == "그래프 보기":
                 is_show_graph == True
                 graph_prev_data = docs_user.get().to_dict()
-                text = graph_prev_data['graph_name']
-                file_url = graph_prev_data['graph_url']
+                try:
+                    text = graph_prev_data['graph_name']
+                    file_url = graph_prev_data['graph_url']
+                except:
+                    text = "아직 그래프를 로드 중입니다."
+                    file_url = "http://k.kakaocdn.net/dn/83BvP/bl20duRC1Q1/lj3JUcmrzC53YIjNDkqbWK/i_6piz1p.jpg"
+                print(text)
+                print(file_url)
             
             elif command == "맞아요":
                 user_prev = firestore.client()
