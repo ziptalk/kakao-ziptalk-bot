@@ -976,7 +976,8 @@ def Message():
                                 u'graph_url' : imageBlob.public_url
                             }, merge=True)
 
-            elif command == "그래프 보기":
+            elif command in "그래프 보기":
+                print("들어와?")
                 is_show_graph == True
                 graph_prev_data = docs_user.get().to_dict()
                 try:
