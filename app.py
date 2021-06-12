@@ -5,6 +5,7 @@ import os
 from flask import Flask, request, jsonify
 import json
 import logging
+from numpy.core.shape_base import block
 import requests
 from bs4 import BeautifulSoup
 from openpyxl import load_workbook
@@ -1481,6 +1482,22 @@ def Message():
                 ]
             }
         }
+
+    if(block_name in "show_graph"):
+        print("44444")
+        dataSend = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleImage": {
+                                "imageUrl": file_url,
+                                "altText": text
+                            }
+                        }
+                    ]
+                }
+            }
 
     print(dataSend)
  
