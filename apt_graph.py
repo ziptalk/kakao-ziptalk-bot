@@ -25,7 +25,7 @@ now = datetime.now()
 
 # bucket_name = "ziptalk-chatbot"
 
-# file_name = "11410_남가좌동_DMC파크뷰자이1단지_202106_savefig.png"
+file_name = "11410_남가좌동_DMC파크뷰자이1단지_202106_savefig.png"
 
 # imageBlob = bucket.blob("/")
 # imagePath = "./"+file_name
@@ -58,13 +58,22 @@ wb = load_workbook(filename='dongcode_20180703_real.xlsx')
 sheet = wb['Sheet1']
 
 do_city_list = []
+do_city_json = []
 
 for i in range(1, 230):
+    dic = {"label" : sheet[i][2].value, "action": "message", "messageText" : sheet[i][2].value}
     do_city_list.append(sheet[i][2].value)
 
 do_city_set = set(do_city_list)
 do_city_list = list(do_city_set)
-print(do_city_list)
+
+# print(do_city_list)
+
+for do_city in do_city_list:
+    dic = {"label" : do_city, "action": "message", "messageText" : do_city}
+    do_city_json.append(dic)
+
+print(do_city_json)
 
 do_city_name = input("도(특별자치도) 혹은 시(특별시, 광역시)를 입력하세요. :: ")
 

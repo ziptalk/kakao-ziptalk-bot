@@ -460,7 +460,10 @@ def Keyboard():
 # @app.route('/message')
 @app.route('/message', methods=['POST'])
 def Message():
-    
+    do_city_list = []
+    do_city_json = []
+
+
     content = request.get_json()
     user_id = content['intent']
     block_name = user_id['name']
@@ -482,6 +485,7 @@ def Message():
 
     is_question = False
     is_act_apt = False
+    is_property_graph = False
 
     db_user = firestore.client()
     print("디비 연결 완료")
@@ -553,6 +557,23 @@ def Message():
             if command == "날씨":
                 w = " ".join(args)
                 text = get_weather(w)
+
+            elif command in "부동산 시세 예측":
+                is_property_graph = True
+                text = "검색하고자 하는 도(특별자치도) 혹은 시(특별시, 광역시)를 입력해주세요. (예) 서울, 부산, 충청남도, 세종, 제주)"
+
+                wb = load_workbook(filename='dongcode_20180703_real.xlsx')
+                sheet = wb['Sheet1']
+
+                for i in range(1, 230):
+                    do_city_list.append(sheet[i][2].value)
+
+                do_city_set = set(do_city_list)
+                do_city_list = list(do_city_set)
+                for do_city in do_city_list:
+                    dic = {"label" : do_city, "action": "message", "messageText" : do_city}
+                    do_city_json.append(dic)
+
             
             elif command == "맞아요":
                 user_prev = firestore.client()
@@ -996,6 +1017,21 @@ def Message():
                 "text": text
             }
         }
+
+        if(is_property_graph == True):
+            dataSend = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": text
+                            }
+                        }
+                    ],
+                    "quickReplies": do_city_json
+                }
+            }
     
     if(is_act_apt == True):
         dataSend = {
