@@ -16,8 +16,11 @@ import pandas as pd
 from datetime import datetime, timedelta
 import firebase_admin
 from firebase_admin import credentials
-from firebase_admin import firestore
+from firebase_admin import firestore, storage
 import sys
+from dateutil.relativedelta import relativedelta
+import numpy as np
+import matplotlib.pyplot as plt
 
 from googletrans import Translator
 from predict import predict_unseen_data
@@ -35,7 +38,9 @@ try:
         'ziptalk-chatbot-firebase-adminsdk-kz477-4cadf62941.json')
     firebase_admin.initialize_app(cred, {
         'projectId': 'ziptalk-chatbot',
+        'storageBucket': 'ziptalk-chatbot.appspot.com',
     })
+    bucket = storage.bucket()
     print("파베 연결 완료")
 
 
@@ -565,9 +570,12 @@ def Message():
         graph_prev_data = docs_user.get().to_dict()
         prev_si_gun_gu_list = []
         prev_dong_list = []
+        prev_apt_list = []
+
         try:
             prev_si_gun_gu_list = graph_prev_data['si_gun_gu_list']
             prev_dong_list = graph_prev_data['dong_list']
+            prev_apt_list = graph_prev_data['apt_list']
         except:
             pass
 
@@ -722,7 +730,8 @@ def Message():
                                 u'block_name' : block_name,
                                 u'comment' : content,
                                 u'dong_list' : ['정보가 없습니다.',],
-                                u'search_code': search_code
+                                u'search_code': search_code,
+                                u'dong_name' : command
                             }, merge=True)
                     ############
 
@@ -812,13 +821,152 @@ def Message():
                                 u'user_id' : user_id2,
                                 u'block_name' : block_name,
                                 u'comment' : content,
-                                u'apt_list' : apt_list
+                                u'apt_list' : apt_list,
+                                u'dong_name' : command
                             }, merge=True)
                     except:
                         print("result 오류")
 
                 except:
                     print("get_act_apt_parsing_pd 함수 오류 발생")
+
+            elif command in prev_apt_list:
+                text = "그래프를 산정 중입니다. 조금만 기다려주세요."
+
+                ###########
+                graph_prev_data = docs_user.get().to_dict()
+                search_code = graph_prev_data['search_code']
+                area_name = graph_prev_data['dong_name']
+                apt_name = command
+
+                apt_list = []
+
+                url = 'http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade'
+                service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
+
+                res = urlopen(url)
+                print(res.status)  ## 200
+
+                queryParams = '?' + urlencode(
+                            {
+                                quote_plus('ServiceKey'): service_key,
+                                quote_plus('LAWD_CD'): search_code,
+                                quote_plus('DEAL_YMD'): 202104
+                            }
+                        )
+
+                request2 = Request(url + queryParams)
+                request2.get_method = lambda: 'GET'
+                response_body = urlopen(request2).read()
+
+                result_body = response_body.decode('utf-8')
+
+                price_list = []
+                graph_list = []
+
+                time_code_list =  []
+                now = datetime.now()
+
+                for i in range(0, 36):
+                    time = now - relativedelta(months=i)
+                    time = time.strftime("%Y%m")
+                    time_code_list.append(time)
+
+                time_code_list.reverse()
+                print(time_code_list)
+
+                for time_code in time_code_list:
+
+                    apt_price = ''
+
+                    queryParams = '?' + urlencode(
+                                {
+                                    quote_plus('ServiceKey'): service_key,
+                                    quote_plus('LAWD_CD'): search_code,
+                                    quote_plus('DEAL_YMD'): int(time_code)
+                                }
+                            )
+
+                    request = Request(url + queryParams)
+                    request.get_method = lambda: 'GET'
+                    response_body = urlopen(request).read()
+
+                    result_body = response_body.decode('utf-8')
+                    try:
+                        try:
+                            xmlobj = bs4.BeautifulSoup(result_body, 'lxml-xml')
+                        except:
+                            print("bs4 오류")
+
+                        try:
+                            rows = xmlobj.findAll('item')
+                        except:
+                            print("xmlobj 오류")
+
+                        columns = rows[0].find_all()
+
+                        rowList = []
+                        nameList = []
+                        columnList = []
+                        apt_list = []
+                        price_info = []
+
+                        rowsLen = len(rows)
+
+                        try:
+                            for i in range(1, rowsLen):
+                                columns = rows[i].find_all()
+                                columnsLen = len(columns)
+
+                                for j in range(0, columnsLen):
+                                    if i == 0:
+                                        nameList.append(columns[j].name)
+                                    else:
+                                        if columns[3].text == (' ' + area_name): # 동이름이 같으면
+                                            if apt_name in columns[4].text: # 아파트명이 같으면
+                                                # price_list.append(columns[0].text)
+                                                apt_name = columns[4].text
+                                                apt_price = columns[0].text
+                                                # print(apt_price)
+
+                                    eachColumn = columns[j].text
+                                    columnList.append(eachColumn)
+
+                                rowList.append(columnList)
+                                columnList = []
+
+                            apt_price = apt_price.replace(' ', '')
+                            apt_price = apt_price.replace(',', '')
+                            print(apt_price)
+                            price_info = [time_code, int(apt_price)]
+                            graph_list.append(tuple(price_info))
+
+                        except:
+                            print("result 오류")
+
+                    except:
+                        print("get_act_apt_parsing_pd 함수 오류 발생")
+
+                print(graph_list)
+
+                x, y = zip(*graph_list)
+
+                # plt.step(x, y)
+                plt.plot(x, y)
+                plt.xticks(rotation=45)
+                file_name = str(search_code) + '_' + area_name + '_' + apt_name + '_' + str(time_code_list[-1]) + '_' + 'savefig.png'
+                plt.savefig(file_name)
+                # plt.show()
+                imageBlob = bucket.blob("/")
+                imagePath = "./"+file_name
+                imageBlob = bucket.blob(file_name)
+
+                imageBlob.upload_from_filename(imagePath)
+                imageBlob.make_public()
+                print(imageBlob.public_url)
+
+
+
 
             
             elif command == "맞아요":
