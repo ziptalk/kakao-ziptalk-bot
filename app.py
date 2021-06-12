@@ -703,9 +703,25 @@ def Message():
                             }, merge=True)
                         except:
                             print("result 오류")
+                            docs_user.set({
+                                u'date' : yyyy_mm_dd,
+                                u'user_id' : user_id2,
+                                u'block_name' : block_name,
+                                u'comment' : content,
+                                u'dong_list' : ['정보가 없습니다.',],
+                                u'search_code': search_code
+                            }, merge=True)
 
                     except:
                         print("get_act_apt_parsing_pd 함수 오류 발생")
+                        docs_user.set({
+                                u'date' : yyyy_mm_dd,
+                                u'user_id' : user_id2,
+                                u'block_name' : block_name,
+                                u'comment' : content,
+                                u'dong_list' : ['정보가 없습니다.',],
+                                u'search_code': search_code
+                            }, merge=True)
                     ############
 
             elif command in prev_dong_list:
