@@ -635,9 +635,9 @@ def Message():
                                 }
                             )
 
-                    request = Request(url + queryParams)
-                    request.get_method = lambda: 'GET'
-                    response_body = urlopen(request).read()
+                    request2 = Request(url + queryParams)
+                    request2.get_method = lambda: 'GET'
+                    response_body = urlopen(request2).read()
 
                     result_body = response_body.decode('utf-8')
 
