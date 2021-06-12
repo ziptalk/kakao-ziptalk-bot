@@ -462,7 +462,7 @@ def Keyboard():
 def Message():
     do_city_list = []
     do_city_json = []
-
+    si_gun_gu_list = []
 
     content = request.get_json()
     user_id = content['intent']
@@ -583,8 +583,19 @@ def Message():
 
                 for i in range(1, 230):
                     if (command in sheet[i][2].value):
+                        si_gun_gu_list.append(sheet[i][3].value)
                         dic = {"label" : sheet[i][3].value, "action" : "message", "messageText": sheet[i][3].value}
                         do_city_json.append(dic)
+                
+                # apt_graph_user = firestore.client()
+                # si_gun_gu_data = apt_graph_user.collection(u'property_graph_data').document()
+                docs_user.set({
+                        u'date' : yyyy_mm_dd,
+                        u'user_id' : user_id2,
+                        u'block_name' : block_name,
+                        u'comment' : content,
+                        u'si_gun_gu_list' : si_gun_gu_list
+                    }, merge=True)
             
             elif command == "맞아요":
                 user_prev = firestore.client()
