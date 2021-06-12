@@ -618,9 +618,82 @@ def Message():
                 else:
                     # 동코드가 1111010100 이런 형식이므로 앞에 11110 만 가져오도록 인덱싱.
                     search_code = dongcode[0:5]
-                    text = str(search_code)
-                    dic = {"label" : str(search_code), "action": "message", "messageText" : str(search_code)}
-                    do_city_json.append(dic)
+                    text = "읍/면/동/리 를 입력하세요."
+
+                    ###########
+                    url = 'http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade'
+                    service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
+
+                    res = urlopen(url)
+                    print(res.status)  ## 200
+
+                    queryParams = '?' + urlencode(
+                                {
+                                    quote_plus('ServiceKey'): service_key,
+                                    quote_plus('LAWD_CD'): search_code,
+                                    quote_plus('DEAL_YMD'): 202104
+                                }
+                            )
+
+                    request = Request(url + queryParams)
+                    request.get_method = lambda: 'GET'
+                    response_body = urlopen(request).read()
+
+                    result_body = response_body.decode('utf-8')
+
+                    try:
+                        try:
+                            xmlobj = bs4.BeautifulSoup(result_body, 'lxml-xml')
+                        except:
+                            print("bs4 오류")
+
+                        try:
+                            rows = xmlobj.findAll('item')
+                        except:
+                            print("xmlobj 오류")
+
+                        columns = rows[0].find_all()
+
+                        rowList = []
+                        nameList = []
+                        columnList = []
+                        dong_list = []
+
+                        rowsLen = len(rows)
+
+                        try:
+                            for i in range(1, rowsLen):
+                                columns = rows[i].find_all()
+                                columnsLen = len(columns)
+
+                                for j in range(0, columnsLen):
+                                    if i == 0:
+                                        nameList.append(columns[j].name)
+                                    else:
+                                        dong_temp = columns[3].text.replace(' ', '')
+                                        dong_list.append(dong_temp)
+
+                                    eachColumn = columns[j].text
+                                    columnList.append(eachColumn)
+
+                                rowList.append(columnList)
+                                columnList = []
+
+
+                            dong_set = set(dong_list)
+                            dong_list = list(dong_set)
+                            print(dong_list)
+
+                            for dong_name in dong_list:
+                                dic = {"label" : dong_name, "action": "message", "messageText" : dong_name}
+                                do_city_json.append(dic)
+                        except:
+                            print("result 오류")
+
+                    except:
+                        print("get_act_apt_parsing_pd 함수 오류 발생")
+                    ############
+                    
             
             elif command == "맞아요":
                 user_prev = firestore.client()

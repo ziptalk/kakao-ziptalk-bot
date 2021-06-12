@@ -139,6 +139,7 @@ try:
     columnList = []
     result = ''
     apt_list = []
+    dong_list = []
 
     rowsLen = len(rows)
 
@@ -148,10 +149,13 @@ try:
             columnsLen = len(columns)
 
             for j in range(0, columnsLen):
+                
 
                 if i == 0:
                     nameList.append(columns[j].name)
                 else:
+                    dong_temp = columns[3].text.replace(' ', '')
+                    dong_list.append(dong_temp)
                     if columns[3].text == (' ' + area_name): # 동이름이 같으면
                         result = result + columns[j].name + \
                             ' : ' + columns[j].text + '\n'
@@ -170,6 +174,10 @@ try:
         # print(result)
         apt_set = set(apt_list) #중복제거
         apt_list = list(apt_set)
+
+        dong_set = set(dong_list)
+        dong_list = list(dong_set)
+        print(dong_list)
         print(apt_list)
     except:
         print("result 오류")
