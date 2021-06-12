@@ -887,9 +887,9 @@ def Message():
                                 }
                             )
 
-                    request = Request(url + queryParams)
-                    request.get_method = lambda: 'GET'
-                    response_body = urlopen(request).read()
+                    request3 = Request(url + queryParams)
+                    request3.get_method = lambda: 'GET'
+                    response_body = urlopen(request3).read()
 
                     result_body = response_body.decode('utf-8')
                     try:
