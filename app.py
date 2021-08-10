@@ -782,10 +782,10 @@ def Message():
                                 text = text + '매매가: ' + data['price'] + '\n'
                                 text = text + '지상층/지하층: ' + data['floor'] + '\n'
                                 text = text + '대지/연면적: ' + data['area'] + '\n'
-                                text = text + '용적률/유휴 용적률' + data['full_rate_txt'] + '/' + str(data['left_rate']) + '\n'
+                                text = text + '용적률/유휴 용적률: ' + data['full_rate_txt'] + '/' + str(data['left_rate']) + '\n'
                                 text = text + '용도지역: ' + data['use_area'] + '\n'
                                 text = text + '중개사: ' + data['broker'] + '\n'
-                                text = text + '매물번호: ' + data['article_no']
+                                text = text + '매물번호: ' + data['article_no'] + '\n'
                                 text = text + '확인일자: ' + data['check_date'] + '\n\n=================\n\n'
 
                         else:
