@@ -774,9 +774,9 @@ def Message():
                     is_area_ratio = True
                     search_document = docs_ratio.where(u'dong_name', u'==', graph_prev_data['dong_name']).stream()
                     
-                    if len(doc.to_dict()['data']) != 0:
-                        for doc in search_document:
-                            # text = text + str(doc.to_dict()['data'])
+                    for doc in search_document:
+                        if len(doc.to_dict()['data']) != 0:
+                        # text = text + str(doc.to_dict()['data'])
                             for data in doc.to_dict()['data']:
                                 text = text + '주소: ' + data['address'] + '\n'
                                 text = text + '매매가: ' + data['price'] + '\n'
@@ -788,8 +788,8 @@ def Message():
                                 text = text + '매물번호: ' + data['article_no']
                                 text = text + '확인일자: ' + data['check_date'] + '\n\n=================\n\n'
 
-                    else:
-                        text = "해당 지역에 유휴용적률을 확인 가능한 매물 정보가 없습니다! 추후 업데이트 하겠습니다. "
+                        else:
+                            text = "해당 지역에 유휴용적률을 확인 가능한 매물 정보가 없습니다! 추후 업데이트 하겠습니다. "
                 else:
                     is_property_graph = True
                     text = "검색하고자 하는 아파트를 선택하세요."
