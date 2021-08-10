@@ -596,6 +596,7 @@ def Message():
                 if(command in "부동산 시세 예측"):
                     is_property_graph = True
                 else:
+                    print("유휴용적률")
                     is_area_ratio = True
 
                 text = "검색하고자 하는 도(특별자치도) 혹은 시(특별시, 광역시)를 선택해주세요."
@@ -1483,7 +1484,7 @@ def Message():
             }
         
         if(is_area_ratio == True):
-            print("22222")
+            print("is area ratio")
             dataSend = {
                 "version": "2.0",
                 "template": {
@@ -1544,7 +1545,7 @@ def Message():
                     ]
                 }
             }
-
+    print("네?")
     print(dataSend)
  
     return jsonify(dataSend)
