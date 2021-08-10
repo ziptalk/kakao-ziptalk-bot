@@ -1491,12 +1491,11 @@ def Message():
                     "outputs": [
                         {
                             "simpleText": {
-                                # "text": text
-                                "text" : "뭐야"
+                                "text": text
                             }
                         }
                     ],
-                    # "quickReplies": do_city_json
+                    "quickReplies": do_city_json
                 }
             }
 
