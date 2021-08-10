@@ -736,7 +736,8 @@ def Message():
                                 u'block_name' : block_name,
                                 u'comment' : content,
                                 u'dong_list' : dong_list,
-                                u'search_code': search_code
+                                u'search_code': search_code,
+                                u'dong_name' : command
                             }, merge=True)
                         except:
                             print("result 오류")
@@ -746,7 +747,8 @@ def Message():
                                 u'block_name' : block_name,
                                 u'comment' : content,
                                 u'dong_list' : ['정보가 없습니다.',],
-                                u'search_code': search_code
+                                u'search_code': search_code,
+                                u'dong_name' : command
                             }, merge=True)
 
                     except:
@@ -766,12 +768,28 @@ def Message():
                 ## 여기서부터 부동산 시세 조회와 유휴용적률 조회가 갈림
                 graph_prev_data = docs_user.get().to_dict()
                 if(graph_prev_data['command'] in "유휴용적률 조회"):
+                    docs_user.set({
+                                u'dong_name' : ''
+                            }, merge=True)
                     is_area_ratio = True
                     search_document = docs_ratio.where(u'dong_name', u'==', graph_prev_data['dong_name']).stream()
                     
-                    for doc in search_document:
-                        text = text + str(doc.to_dict()['data'])
-                        
+                    if len(doc.to_dict()['data']) != 0:
+                        for doc in search_document:
+                            # text = text + str(doc.to_dict()['data'])
+                            for data in doc.to_dict()['data']:
+                                text = text + '주소: ' + data['address'] + '\n'
+                                text = text + '매매가: ' + data['price'] + '\n'
+                                text = text + '지상층/지하층: ' + data['floor'] + '\n'
+                                text = text + '대지/연면적: ' + data['area'] + '\n'
+                                text = text + '용적률/유휴 용적률' + data['full_rate_txt'] + '/' + data['left_rate'] + '\n'
+                                text = text + '용도지역: ' + data['use_area'] + '\n'
+                                text = text + '중개사: ' + data['broker'] + '\n'
+                                text = text + '매물번호: ' + data['article_no']
+                                text = text + '확인일자: ' + data['check_date'] + '\n\n=================\n\n'
+
+                    else:
+                        text = "해당 지역에 유휴용적률을 확인 가능한 매물 정보가 없습니다! 추후 업데이트 하겠습니다. "
                 else:
                     is_property_graph = True
                     text = "검색하고자 하는 아파트를 선택하세요."
