@@ -495,11 +495,13 @@ def Message():
     is_act_apt = False
     is_property_graph = False
     is_show_graph = False
+    is_area_ratio = False
 
     db_user = firestore.client()
     print("디비 연결 완료")
 
     docs_user = db_user.collection(u'user_record').document(user_id2)
+    docs_ratio = db_user.collection(u'area_ratio')
 
 
     # docs = db.collection(u'subscription_info').where(u'realtime_info.date', u'==', '2021-01-18').stream()
@@ -560,7 +562,6 @@ def Message():
         str_message = content
         # if str_message[0:1] == "":
 
-
         wb = load_workbook(filename='dongcode_20180703_real.xlsx')
         sheet = wb['Sheet1']
 
@@ -591,16 +592,33 @@ def Message():
                 w = " ".join(args)
                 text = get_weather(w)
 
-            elif command in "부동산 시세 예측":
-                is_property_graph = True
+            elif (command in "부동산 시세 예측") or (command in "유휴용적률 조회"):
+                if(command in "부동산 시세 예측"):
+                    is_property_graph = True
+                else:
+                    is_area_ratio = True
+
                 text = "검색하고자 하는 도(특별자치도) 혹은 시(특별시, 광역시)를 선택해주세요."
+
+                docs_user.update({
+                        u'date' : yyyy_mm_dd,
+                        u'user_id' : user_id2,
+                        u'block_name' : block_name,
+                        u'comment' : content,
+                        u'command' : command,
+                    })
 
                 for do_city in do_city_list:
                     dic = {"label" : do_city, "action": "message", "messageText" : do_city}
                     do_city_json.append(dic)
             
             elif command in do_city_list:
-                is_property_graph = True
+                graph_prev_data = docs_user.get().to_dict()
+                if(graph_prev_data['command'] in "유휴용적률 조회"):
+                    is_area_ratio = True
+                else:
+                    is_property_graph = True
+                
                 text = "검색하고자 하는 시/군/구 를 입력하세요."
 
                 for i in range(1, 230):
@@ -620,7 +638,12 @@ def Message():
                     }, merge=True)
             
             elif command in prev_si_gun_gu_list:
-                is_property_graph = True
+                graph_prev_data = docs_user.get().to_dict()
+                if(graph_prev_data['command'] in "유휴용적률 조회"):
+                    is_area_ratio = True
+                else:
+                    is_property_graph = True
+
                 dongcode = " "
                 search_code = " "
                 graph_prev_data = docs_user.get().to_dict()
@@ -739,99 +762,106 @@ def Message():
                     ############
 
             elif command in prev_dong_list:
-                is_property_graph = True
-                text = "검색하고자 하는 아파트를 선택하세요."
-
-                ###########
+                ## 여기서부터 부동산 시세 조회와 유휴용적률 조회가 갈림
                 graph_prev_data = docs_user.get().to_dict()
-                search_code = graph_prev_data['search_code']
-                area_name = command
-                apt_list = []
+                if(graph_prev_data['command'] in "유휴용적률 조회"):
+                    is_area_ratio = True
+                    search_document = docs_ratio.where(u'dong_name', u'==', graph_prev_data['dong_name']).get().to_dict()
+                    text = str(search_document['data'])
+                else:
+                    is_property_graph = True
+                    text = "검색하고자 하는 아파트를 선택하세요."
 
-                url = 'http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade'
-                service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
+                    ###########
+                    graph_prev_data = docs_user.get().to_dict()
+                    search_code = graph_prev_data['search_code']
+                    area_name = command
+                    apt_list = []
 
-                res = urlopen(url)
-                print(res.status)  ## 200
+                    url = 'http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade'
+                    service_key = 'PdWFVj9WjaMQ7Qmoamq2n1f81jXwnfinEaCxcbGTtjmlmpwPcfEsQkky9Cdgz6J+tWUeGpU5BaVi6fZsgnL9qw=='  # 서비스 인증키
 
-                queryParams = '?' + urlencode(
-                            {
-                                quote_plus('ServiceKey'): service_key,
-                                quote_plus('LAWD_CD'): search_code,
-                                quote_plus('DEAL_YMD'): 202104
-                            }
-                        )
+                    res = urlopen(url)
+                    print(res.status)  ## 200
 
-                request2 = Request(url + queryParams)
-                request2.get_method = lambda: 'GET'
-                response_body = urlopen(request2).read()
+                    queryParams = '?' + urlencode(
+                                {
+                                    quote_plus('ServiceKey'): service_key,
+                                    quote_plus('LAWD_CD'): search_code,
+                                    quote_plus('DEAL_YMD'): 202104
+                                }
+                            )
 
-                result_body = response_body.decode('utf-8')
+                    request2 = Request(url + queryParams)
+                    request2.get_method = lambda: 'GET'
+                    response_body = urlopen(request2).read()
 
-                try:
-                    try:
-                        xmlobj = bs4.BeautifulSoup(result_body, 'lxml-xml')
-                    except:
-                        print("bs4 오류")
-
-                    try:
-                        rows = xmlobj.findAll('item')
-                    except:
-                        print("xmlobj 오류")
-
-                    columns = rows[0].find_all()
-
-                    rowList = []
-                    nameList = []
-                    columnList = []
-                    result = ''
-                    dong_list = []
-
-                    rowsLen = len(rows)
+                    result_body = response_body.decode('utf-8')
 
                     try:
-                        for i in range(1, rowsLen):
-                            columns = rows[i].find_all()
-                            columnsLen = len(columns)
+                        try:
+                            xmlobj = bs4.BeautifulSoup(result_body, 'lxml-xml')
+                        except:
+                            print("bs4 오류")
 
-                            for j in range(0, columnsLen):
-                                
+                        try:
+                            rows = xmlobj.findAll('item')
+                        except:
+                            print("xmlobj 오류")
 
-                                if i == 0:
-                                    nameList.append(columns[j].name)
-                                else:
-                                    if columns[3].text == (' ' + area_name): # 동이름이 같으면
-                                        if columns[j].name == '아파트':
-                                            apt_list.append(columns[j].text)
+                        columns = rows[0].find_all()
 
-                                eachColumn = columns[j].text
-                                columnList.append(eachColumn)
+                        rowList = []
+                        nameList = []
+                        columnList = []
+                        result = ''
+                        dong_list = []
 
-                            rowList.append(columnList)
-                            columnList = []
+                        rowsLen = len(rows)
 
-                        # print(result)
-                        apt_set = set(apt_list) #중복제거
-                        apt_list = list(apt_set)
+                        try:
+                            for i in range(1, rowsLen):
+                                columns = rows[i].find_all()
+                                columnsLen = len(columns)
 
-                        print(apt_list)
-                        for apt_name in apt_list:
-                            dic = {"label" : apt_name, "action": "message", "messageText" : apt_name}
-                            do_city_json.append(dic)
+                                for j in range(0, columnsLen):
+                                    
 
-                        docs_user.set({
-                                u'date' : yyyy_mm_dd,
-                                u'user_id' : user_id2,
-                                u'block_name' : block_name,
-                                u'comment' : content,
-                                u'apt_list' : apt_list,
-                                u'dong_name' : command
-                            }, merge=True)
+                                    if i == 0:
+                                        nameList.append(columns[j].name)
+                                    else:
+                                        if columns[3].text == (' ' + area_name): # 동이름이 같으면
+                                            if columns[j].name == '아파트':
+                                                apt_list.append(columns[j].text)
+
+                                    eachColumn = columns[j].text
+                                    columnList.append(eachColumn)
+
+                                rowList.append(columnList)
+                                columnList = []
+
+                            # print(result)
+                            apt_set = set(apt_list) #중복제거
+                            apt_list = list(apt_set)
+
+                            print(apt_list)
+                            for apt_name in apt_list:
+                                dic = {"label" : apt_name, "action": "message", "messageText" : apt_name}
+                                do_city_json.append(dic)
+
+                            docs_user.set({
+                                    u'date' : yyyy_mm_dd,
+                                    u'user_id' : user_id2,
+                                    u'block_name' : block_name,
+                                    u'comment' : content,
+                                    u'apt_list' : apt_list,
+                                    u'dong_name' : command
+                                }, merge=True)
+                        except:
+                            print("result 오류")
+
                     except:
-                        print("result 오류")
-
-                except:
-                    print("get_act_apt_parsing_pd 함수 오류 발생")
+                        print("get_act_apt_parsing_pd 함수 오류 발생")
 
             elif command in prev_apt_list:
                 text = "그래프를 산정 중입니다. 조금만 기다려주세요."
@@ -1437,6 +1467,22 @@ def Message():
         }
 
         if(is_property_graph == True):
+            print("22222")
+            dataSend = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": text
+                            }
+                        }
+                    ],
+                    "quickReplies": do_city_json
+                }
+            }
+        
+        if(is_area_ratio == True):
             print("22222")
             dataSend = {
                 "version": "2.0",
