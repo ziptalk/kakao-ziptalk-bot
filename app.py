@@ -767,8 +767,11 @@ def Message():
                 graph_prev_data = docs_user.get().to_dict()
                 if(graph_prev_data['command'] in "유휴용적률 조회"):
                     is_area_ratio = True
-                    search_document = docs_ratio.where(u'dong_name', u'==', graph_prev_data['dong_name']).get().stream()
-                    text = str(search_document['data'])
+                    search_document = docs_ratio.where(u'dong_name', u'==', graph_prev_data['dong_name']).stream()
+                    
+                    for doc in search_document:
+                        text = text + str(doc.to_dict()['data'])
+                        
                 else:
                     is_property_graph = True
                     text = "검색하고자 하는 아파트를 선택하세요."
