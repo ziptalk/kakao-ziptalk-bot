@@ -767,7 +767,7 @@ def Message():
                 graph_prev_data = docs_user.get().to_dict()
                 if(graph_prev_data['command'] in "유휴용적률 조회"):
                     is_area_ratio = True
-                    search_document = docs_ratio.where(u'dong_name', u'==', graph_prev_data['dong_name']).get().to_dict()
+                    search_document = docs_ratio.where(u'dong_name', u'==', graph_prev_data['dong_name']).get().stream()
                     text = str(search_document['data'])
                 else:
                     is_property_graph = True
