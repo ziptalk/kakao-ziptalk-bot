@@ -772,7 +772,7 @@ def Message():
                                 u'command' : ''
                             }, merge=True)
                     is_area_ratio = True
-                    search_document = docs_ratio.where(u'dong_name', u'==', graph_prev_data['dong_name']).stream()
+                    search_document = docs_ratio.where(u'dong_name', u'==', command).stream()
                     
                     for doc in search_document:
                         if len(doc.to_dict()['data']) != 0:
