@@ -778,6 +778,7 @@ def Message():
                     
                     for doc in search_document:
                         new_data = sorted(doc.to_dict()['data'], key=itemgetter('left_rate'))
+                        new_data.reverse()
                         if len(doc.to_dict()['data']) != 0:
                         # text = text + str(doc.to_dict()['data'])
                             for data in new_data:
