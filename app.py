@@ -22,6 +22,7 @@ import sys
 from dateutil.relativedelta import relativedelta
 import numpy as np
 import matplotlib.pyplot as plt
+from operator import itemgetter
 
 from googletrans import Translator
 from predict import predict_unseen_data
@@ -774,10 +775,12 @@ def Message():
                     is_area_ratio = True
                     search_document = docs_ratio.where(u'dong_name', u'==', command).stream()
                     
+                    
                     for doc in search_document:
+                        new_data = sorted(doc.to_dict()['data'], key=itemgetter('left_rate'))
                         if len(doc.to_dict()['data']) != 0:
                         # text = text + str(doc.to_dict()['data'])
-                            for data in doc.to_dict()['data']:
+                            for data in new_data:
                                 text = text + '주소: ' + data['address'] + '\n'
                                 text = text + '매매가: ' + data['price'] + '\n'
                                 text = text + '지상층/지하층: ' + data['floor'] + '\n'
