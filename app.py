@@ -580,7 +580,7 @@ def Message():
         wb = load_workbook(filename='dongcode_20180703_real.xlsx')
         sheet = wb['Sheet1']
 
-        for i in range(1, 230):
+        for i in range(2, 230):
             do_city_list.append(sheet[i][2].value)
 
         do_city_set = set(do_city_list)
