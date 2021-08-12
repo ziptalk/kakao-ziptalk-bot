@@ -602,13 +602,13 @@ def Message():
 
                 text = "검색하고자 하는 도(특별자치도) 혹은 시(특별시, 광역시)를 선택해주세요."
 
-                docs_user.update({
+                docs_user.set({
                         u'date' : yyyy_mm_dd,
                         u'user_id' : user_id2,
                         u'block_name' : block_name,
                         u'comment' : content,
                         u'command' : command,
-                    })
+                    }, merge=True)
 
                 for do_city in do_city_list:
                     dic = {"label" : do_city, "action": "message", "messageText" : do_city}
