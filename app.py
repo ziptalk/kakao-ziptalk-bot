@@ -425,9 +425,6 @@ def api_AptList(area_command):
         wb = load_workbook(filename='dongcode_20180703.xlsx')
         sheet = wb['Sheet1']
 
-        wb2 = load_workbook(filename='dongcode_20180703.xlsx')
-        sheet2 = wb2['Sheet2']
-
         dongcode = " "
 
         for i in range(1, 3000):
@@ -751,9 +748,12 @@ def Message():
 
                             # if is_area_ratio == True:
                             dong_list2 = []
+                            wb2 = load_workbook(filename='dongcode_20180703.xlsx')
+                            sheet2 = wb2['Sheet2']
+                            
                             for i in range(2, 468): #서울만 처리
-                                if (command in sheet[i][3].value):
-                                    dong_list2.append(sheet[i][4].value)
+                                if (command in sheet2[i][3].value):
+                                    dong_list2.append(sheet2[i][4].value)
 
                             if (is_area_ratio == True) and (len(dong_list2) > 0): #서울만 처리
                                 dong_list = dong_list2
