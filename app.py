@@ -750,7 +750,7 @@ def Message():
                             dong_list2 = []
                             wb2 = load_workbook(filename='dongcode_20180703.xlsx')
                             sheet2 = wb2['Sheet2']
-                            
+
                             for i in range(2, 468): #서울만 처리
                                 if (command in sheet2[i][3].value):
                                     dong_list2.append(sheet2[i][4].value)
@@ -1554,10 +1554,7 @@ def Message():
         if(is_area_ratio == True):
             print("is area ratio")
             if text == '':
-                text = """
-                해당 지역은 아직 정보를 제공하지 않습니다.😢 
-                추후 업데이트 할 예정입니다. 
-                (* 현재는 서울 데이터만 제공하고 있습니다.)"""
+                text = '해당 지역은 아직 정보를 제공하지 않습니다.😢\n추후 업데이트 할 예정입니다.\n(* 현재는 서울 데이터만 제공하고 있습니다.)'
             dataSend = {
                 "version": "2.0",
                 "template": {
