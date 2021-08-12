@@ -1255,7 +1255,7 @@ def Message():
 
                 dongcode = " "
 
-                for i in range(1, 230):
+                for i in range(2, 230):
                     # for i in range(1, 18858):
 
                     if (cityname[0:2] in sheet[i][2].value) and (guname in sheet[i][3].value):
