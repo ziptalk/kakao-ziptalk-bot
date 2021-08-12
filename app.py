@@ -425,6 +425,9 @@ def api_AptList(area_command):
         wb = load_workbook(filename='dongcode_20180703.xlsx')
         sheet = wb['Sheet1']
 
+        wb2 = load_workbook(filename='dongcode_20180703.xlsx')
+        sheet2 = wb2['Sheet2']
+
         dongcode = " "
 
         for i in range(1, 3000):
@@ -745,6 +748,13 @@ def Message():
                             for dong_name in dong_list:
                                 dic = {"label" : dong_name, "action": "message", "messageText" : dong_name}
                                 do_city_json.append(dic)
+
+                            if is_area_ratio == True:
+                                dong_list = []
+                                for i in range(2, 468):
+                                    if (command in sheet[i][3].value):
+                                        dong_list.append(sheet[i][4].value)
+
                             docs_user.set({
                                 u'date' : yyyy_mm_dd,
                                 u'user_id' : user_id2,
@@ -1238,6 +1248,8 @@ def Message():
                 wb = load_workbook(filename='dongcode_20180703_real.xlsx')
                 sheet = wb['Sheet1']
 
+                
+
                 dongcode = " "
 
                 for i in range(1, 230):
@@ -1538,6 +1550,11 @@ def Message():
         
         if(is_area_ratio == True):
             print("is area ratio")
+            if text == '':
+                text = """
+                해당 지역은 아직 정보를 제공하지 않습니다.😢 
+                추후 업데이트 할 예정입니다. 
+                (* 현재는 서울 데이터만 제공하고 있습니다.)"""
             dataSend = {
                 "version": "2.0",
                 "template": {
