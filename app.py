@@ -749,11 +749,14 @@ def Message():
                                 dic = {"label" : dong_name, "action": "message", "messageText" : dong_name}
                                 do_city_json.append(dic)
 
-                            if is_area_ratio == True:
-                                dong_list = []
-                                for i in range(2, 468):
-                                    if (command in sheet[i][3].value):
-                                        dong_list.append(sheet[i][4].value)
+                            # if is_area_ratio == True:
+                            dong_list2 = []
+                            for i in range(2, 468): #서울만 처리
+                                if (command in sheet[i][3].value):
+                                    dong_list2.append(sheet[i][4].value)
+
+                            if (is_area_ratio == True) and (len(dong_list2) > 0): #서울만 처리
+                                dong_list = dong_list2
 
                             docs_user.set({
                                 u'date' : yyyy_mm_dd,
